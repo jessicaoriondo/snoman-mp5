@@ -27,12 +27,13 @@ Renderable.prototype.update = function () {};
 //**-----------------------------------------
 // Public methods
 //**-----------------------------------------
-Renderable.prototype.draw = function (camera) {
+Renderable.prototype.draw = function (camera, parentMat) {
      var gl = gEngine.Core.getGL();
     this.mShader.activateShader(this.mGLBuffer,
                     this.mColor,
                     camera.getVPMatrix());  // always activate the shader first!
     this.mShader.loadObjectTransform(this.mXform.getXform());
+    this.computeAndLoadModelXform(parentMat);
     gl.drawArrays(this.mGLDrawType, 0, this.mBufferSize);
 };
 Renderable.prototype.computeAndLoadModelXform = function (parentMat) {
