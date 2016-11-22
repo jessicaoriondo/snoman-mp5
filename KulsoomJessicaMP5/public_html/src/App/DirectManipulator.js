@@ -54,6 +54,25 @@ function DirectManipulation(shader, drawPivot) {
     this.mElements.push(this.mScalePoint);
 }
 
+DirectManipulation.prototype.getRotationPoint = function () {
+    return this.mRotationPoint;
+};
+
+DirectManipulation.prototype.getScalePoint = function () {
+    return this.mScalePoint;
+};
+
+DirectManipulation.prototype.setSceneNode = function (obj) {
+    this.mSceneNode = obj;
+};
+
+DirectManipulation.prototype.removeSceneNode = function () {
+    this.mSceneNode = null;
+};
+
+DirectManipulation.prototype.getSceneNode = function () {
+    return this.mSceneNode;
+};
 
 DirectManipulation.prototype.getXform = function () { return this.mXform; };
 

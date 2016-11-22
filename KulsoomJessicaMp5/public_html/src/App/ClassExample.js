@@ -16,22 +16,43 @@ function ClassExample() {
     
     this.vmShouldDrawControl = false;
     
+    this.vmShouldDrawDirectManipulator = false;
+    
+    this.mDMMode = false;
+    
 
     this.mConstColorShader = new SimpleShader(
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
-        
+    
+    //snowman body
     this.mHeadSq = new SquareRenderable(this.mConstColorShader);
     this.mHeadSq.setColor([0.2, 1.0, 0.2, 1]);
     this.mHeadSq.getXform().setSize(0.25, 0.25);
+    
+    //left arm
     this.mBlueSq = new SquareRenderable(this.mConstColorShader);
     this.mBlueSq.setColor([0.5, 0.5, 1.0, 1]);
     this.mBlueSq.getXform().setSize(0.25, 0.25);
+    
+    //upper left arm
     this.mRedSq =  new SquareRenderable(this.mConstColorShader);
     this.mRedSq.setColor([1.0, 0.5, 0.5, 1]);
     this.mRedSq.getXform().setSize(0.25, 0.25);
+    
+    //right arm
+    this.mYellowSq =  new SquareRenderable(this.mConstColorShader);
+    this.mYellowSq.setColor([249/255, 216/255, 2/255, 1]);
+    this.mYellowSq.getXform().setSize(0.25, 0.25);
+    
+    //right upper arm
+    this.mPurpleSq =  new SquareRenderable(this.mConstColorShader);
+    this.mPurpleSq.setColor([146/255, 2/255, 249/255, 1]);
+    this.mPurpleSq.getXform().setSize(0.25, 0.25);
+    
+    //mouse
     this.mXfSq =  new SquareRenderable(this.mConstColorShader);
-    this.mXfSq.setColor([0.4, 0., 0.4, 1]);
+    this.mXfSq.setColor([0.4, 0, 0.4, 1]);
     this.mXfSq.getXform().setSize(0.2, 0.2);
 
     this.mParent = new SceneNode(this.mConstColorShader, "Root", true);
@@ -41,25 +62,58 @@ function ClassExample() {
     this.mTopChild = new ArmSegment(this.mConstColorShader, "LeftGen 2",
                             -2, 2);
     this.mLeftChild.addAsChild(this.mTopChild);
+    //this.mTopChild.getXform().setPosition(0, 0);
 
     this.mRightChild = new ArmSegment(this.mConstColorShader, "RightGen 1",
                             2, 0);
     this.mParent.addAsChild(this.mRightChild);  // <-- WHAT ARE WE DOING?!!
+    
+    this.mTopRChild = new ArmSegment(this.mConstColorShader, "LeftGen 2",
+                            2, 2);
+    this.mRightChild.addAsChild(this.mTopRChild);
 
 
     // shapes in the parent
-    var obj = new SquareRenderable(this.mConstColorShader);  // the base
+    //bottom
+    var obj = new CircleRenderable(this.mConstColorShader);  // the base
     this.mParent.addToSet(obj);
-    obj.setColor([0.3, 0.3, 0.9, 1]);
+    obj.setColor([1.0, 1.0, 1.0, 1]);
     var xf = obj.getXform();
-    xf.setSize(4, 1.5);
+    xf.setSize(1.4, 1.4);
     
-    obj = new SquareRenderable(this.mConstColorShader); // The head
+    //middle
+    obj = new CircleRenderable(this.mConstColorShader);  // the base
     this.mParent.addToSet(obj);
-    obj.setColor([0.9, 0.8, 0.8, 1]);
-    xf = obj.getXform();
+    obj.setColor([1.0, 1.0, 1.0, 1]);
+    var xf = obj.getXform();
     xf.setSize(1.3, 1.3);
+    xf.setPosition(0,1.9);
+    
+    //top
+    obj = new CircleRenderable(this.mConstColorShader);  // the base
+    this.mParent.addToSet(obj);
+    obj.setColor([1.0, 1.0, 1.0, 1]);
+    var xf = obj.getXform();
+    xf.setSize(1.2, 1.2);
+    xf.setPosition(0,3.7);
+    
+//    
+//    obj = new SquareRenderable(this.mConstColorShader); // The head
+//    this.mParent.addToSet(obj);
+//    obj.setColor([0.9, 0.8, 0.8, 1]);
+//    xf = obj.getXform();
+//    xf.setSize(1.3, 1.3);
+    
+    this.mDirectManipulator = new DirectManipulation(this.mConstColorShader, true);
+    var xfDM = this.mDirectManipulator.getXform();
+    xfDM.setPosition(0, 5);
 }
+
+ClassExample.prototype.scaleSceneNode = function (mouseDist) {
+    if(this.mDirectManipulator.getSceneNode() !== null){
+        console.log("sceneN Pos of DM: " + this.mDirectManipulator.getSceneNode().getXform().getPosition());
+    }
+};
 
 ClassExample.prototype.toggleHeadSpin = function () {
     this.mHeadShouldSpin = !this.mHeadShouldSpin; };
@@ -79,7 +133,13 @@ ClassExample.prototype.draw = function (camera) {
         this.mHeadSq.draw(camera);
         this.mBlueSq.draw(camera);
         this.mRedSq.draw(camera);
+        this.mYellowSq.draw(camera);
+        this.mPurpleSq.draw(camera);
         this.mXfSq.draw(camera);
+    }
+    
+    if(this.vmShouldDrawDirectManipulator){
+        this.mDirectManipulator.draw(camera);
     }
 };
 
@@ -110,7 +170,10 @@ ClassExample.prototype.update = function () {
     }
 };
 
-
+ClassExample.prototype.moveDirectManipulator = function (wcPos) {
+    var xfDM = this.mDirectManipulator.getXform();
+    xfDM.setPosition(wcPos[0], wcPos[1]);
+};
 
 ClassExample.prototype.leftChildXform = function () {
     return this.mLeftChild.getXform();
@@ -128,4 +191,8 @@ ClassExample.prototype.topChildXform = function () {
 
 ClassExample.prototype.parentXform = function () {
     return this.mParent.getXform();
+};
+
+ClassExample.prototype.directManipulatorXform = function () {
+    return this.mDirectManipulator.getXform();
 };

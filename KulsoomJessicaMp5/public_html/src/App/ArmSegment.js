@@ -15,40 +15,40 @@ function ArmSegment(shader, name, xPivot, yPivot) {
     xf.setPivot(xPivot, yPivot);
     
     // now create the children shapes
-    var obj = new SquareRenderable(shader);  // The yellow 1x2 base
+    var obj = new SquareRenderable(shader);  // base
     this.addToSet(obj);
-    obj.setColor([1, 1, 0, 1]);
+    obj.setColor([0.98, 0.98, 0.98, 1]);
     xf = obj.getXform();
-    xf.setSize(1, 2);
+    xf.setSize(0.3, 2);
     xf.setPosition(xPivot, 1 + yPivot);
  
     obj = new SquareRenderable(shader);  // The red top
     this.addToSet(obj);
-    obj.setColor([0.7, 0.2, 0.2, 1]);
+    obj.setColor([1, 0, 0, 1]);
     xf = obj.getXform();
-    xf.setSize(1, 0.5); // so that we can see the connecting point
+    xf.setSize(0.3, 0.2); 
     xf.setPosition(xPivot, 1.75 + yPivot);
     
-    obj = new SquareRenderable(shader); // The green base (left)
+    obj = new SquareRenderable(shader);  // The red middle
     this.addToSet(obj);
-    obj.setColor([0, 1, 0, 1]);
+    obj.setColor([1, 0, 0, 1]);
     xf = obj.getXform();
-    xf.setSize(0.25, 0.25); // so that we can see the connecting point
-    xf.setPosition(xPivot+0.375, yPivot+0.125);
+    xf.setSize(0.3, 0.2); 
+    xf.setPosition(xPivot, yPivot + 1.1);
     
-    obj = new SquareRenderable(shader); // The green base (right)
+    obj = new SquareRenderable(shader); // red bottom
     this.addToSet(obj);
-    obj.setColor([0, 1, 0, 1]);
+    obj.setColor([1, 0, 0, 1]);
     xf = obj.getXform();
-    xf.setSize(0.25, 0.25); // so that we can see the connecting point
-    xf.setPosition(xPivot-0.375, yPivot+0.125);
+    xf.setSize(0.3, 0.2); // so that we can see the connecting point
+    xf.setPosition(xPivot, yPivot+0.4);
     
-    obj = new SquareRenderable(shader); // The middle blue "circle"
+    obj = new CircleRenderable(shader); // red bottom
     this.addToSet(obj);
-    obj.setColor([0, 0, 1, 1]);
+    obj.setColor([0, 0, 0, 1]);
     xf = obj.getXform();
-    xf.setSize(0.5, 0.5); // so that we can see the connecting point
-    xf.setPosition(xPivot, yPivot+1);
+    xf.setSize(0.2, 0.2); // so that we can see the connecting point
+    xf.setPosition(xPivot, yPivot);
     
     this.mPulseRate = 0.005;
     this.mRotateRate = -2;

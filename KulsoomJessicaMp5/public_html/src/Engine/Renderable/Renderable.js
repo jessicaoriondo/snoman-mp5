@@ -15,6 +15,10 @@ function Renderable(shader) {
     this.mShader = shader;         // the shader for shading this object
     this.mXform = new Transform(); // transform that moves this object around
     this.mColor = [1, 1, 1, 1];    // color of pixel
+    
+     this.mGLBuffer = null; // to be filled in by the subclass
+    this.mBufferSize = 0;
+    this.mGLDrawType = null;
 }
 
 Renderable.prototype.update = function () {};
@@ -23,7 +27,15 @@ Renderable.prototype.update = function () {};
 //**-----------------------------------------
 // Public methods
 //**-----------------------------------------
-Renderable.prototype.draw = function (camera) {};
+Renderable.prototype.draw = function (camera, parentMat) {
+     var gl = gEngine.Core.getGL();
+    this.mShader.activateShader(this.mGLBuffer,
+                    this.mColor,
+                    camera.getVPMatrix());  // always activate the shader first!
+    this.mShader.loadObjectTransform(this.mXform.getXform());
+    this.computeAndLoadModelXform(parentMat);
+    gl.drawArrays(this.mGLDrawType, 0, this.mBufferSize);
+};
 Renderable.prototype.computeAndLoadModelXform = function (parentMat) {
     var m = this.mXform.getXform();
     if (parentMat !== undefined)
