@@ -25,7 +25,7 @@ myModule.controller("MainCtrl", function ($scope) {
         {label: "Parent"},
         {label: "LeftChild"},
         {label: "TopChild"},
-        {label: "RightChild"},
+        {label: "RightChild"}
     ];
 
        // this is the model
@@ -76,5 +76,40 @@ myModule.controller("MainCtrl", function ($scope) {
         $scope.mLastWCPosX = this.mView.mouseWCX(canvasX);
         $scope.mLastWCPosY = this.mView.mouseWCY(canvasY);
         $scope.mMouseOver = $scope.mMyWorld.detectMouseOver($scope.mLastWCPosX, $scope.mLastWCPosY, (event.which===1));
+    };
+    
+    $scope.isMouseOnKnob = false;
+    
+    $scope.LBDOnKnobPos = function(event){
+        var mouseOverSub = $scope.mMouseOver.substring(11);
+//        console.log(mouseOverSub);
+        if(mouseOverSub === "DM Rotation Knob" || 
+                mouseOverSub === "DM Scale Knob"){
+            var canvasX = $scope.mCanvasMouse.getPixelXPos(event);
+            var canvasY = $scope.mCanvasMouse.getPixelYPos(event);
+            $scope.mLastWCPosX = this.mView.mouseWCX(canvasX);
+            $scope.mLastWCPosY = this.mView.mouseWCY(canvasY);
+
+            $scope.mMyWorld.setFirstLBMClickPos($scope.mLastWCPosX, $scope.mLastWCPosY);
+           
+            
+            $scope.isMouseOnKnob = true;
+        }
+        else{
+            $scope.isMouseOnKnob = false;
+        }
+    };
+    
+    $scope.dragKnobPos = function(event){
+        if($scope.isMouseOnKnob && event.which === 1){
+            var canvasX = $scope.mCanvasMouse.getPixelXPos(event);
+            var canvasY = $scope.mCanvasMouse.getPixelYPos(event);
+            $scope.mLastWCPosX = this.mView.mouseWCX(canvasX);
+            $scope.mLastWCPosY = this.mView.mouseWCY(canvasY);
+            
+            $scope.mMyWorld.mDragLMBPos = [$scope.mLastWCPosX, $scope.mLastWCPosY];
+        
+            $scope.mMyWorld.scaleSceneNode();
+        }
     };
 });

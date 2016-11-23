@@ -107,11 +107,43 @@ function ClassExample() {
     this.mDirectManipulator = new DirectManipulation(this.mConstColorShader, true);
     var xfDM = this.mDirectManipulator.getXform();
     xfDM.setPosition(0, 5);
+    
+    this.mFirstLBMClickPos = [0, 0];
+    this.mDragLMBPos = [0, 0];
 }
 
-ClassExample.prototype.scaleSceneNode = function (mouseDist) {
-    if(this.mDirectManipulator.getSceneNode() !== null){
-        console.log("sceneN Pos of DM: " + this.mDirectManipulator.getSceneNode().getXform().getPosition());
+ClassExample.prototype.setFirstLBMClickPos = function (x, y) {
+    
+    console.log("x: " + x);
+    console.log("y: " + y);
+    this.mFirstLBMClickPos = [x, y];
+    
+    console.log("here: " + this.mFirstLBMClickPos);
+};
+
+ClassExample.prototype.getMouseDistanceForScale = function () {
+    if(this.mFirstLBMClickPos !== null && this.mDragLMBPos !== null){
+
+            //console.log(this.mFirstLBMClickPos);
+//        var differenceX = this.mFirstLBMClickPos[0] - this.mDragLMBPos[0];
+//        var differenceY = this.mFirstLBMClickPos[1] - this.mDragLMBPos[1];
+//        return [differenceX, differenceY];
+    }
+};
+
+ClassExample.prototype.scaleSceneNode = function () {
+    if(this.mFirstLBMClickPos !== null && this.mDragLMBPos !== null){
+        var addVal = ClassExample.prototype.getMouseDistanceForScale();
+        
+//        if(this.mDirectManipulator.getSceneNode() !== null){
+//            console.log("WHY ISN'T IT WORKING");
+//            
+//            var oldWidth = this.mDirectManipulator.getSceneNode().getXform().getWidth();
+//            this.mDirectManipulator.getSceneNode().getXform().setWidth(oldWidth + addVal[0]);
+//            
+//            var oldHeight = this.mDirectManipulator.getSceneNode().getXform().getHeight();
+//            this.mDirectManipulator.getSceneNode().getXform().setHeight(oldHeight + addVal[1]);
+//        }
     }
 };
 

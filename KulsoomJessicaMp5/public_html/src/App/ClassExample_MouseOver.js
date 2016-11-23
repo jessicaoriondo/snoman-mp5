@@ -99,7 +99,8 @@ ClassExample.prototype.detectMouseOver = function (wcX, wcY, didLeftClick) {
                     this.mDirectManipulator.removeSceneNode();
                 }
                 this.mDirectManipulator.setSceneNode(this.mRightChild);
-                //this.mDirectManipulator.getSceneNode().getXform().setXPos(1);
+//                var w = this.mDirectManipulator.getSceneNode().getXform().getWidth();
+//                this.mDirectManipulator.getSceneNode().getXform().setWidth(w + 2);
 //                console.log("upper right arm pos: " + this.mRightChild.getXform().getPosition());
 //                console.log("sceneN Pos of DM: " + this.mDirectManipulator.getSceneNode().getXform().getPosition());
             }
