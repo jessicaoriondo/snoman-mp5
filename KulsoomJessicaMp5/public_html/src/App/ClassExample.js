@@ -97,54 +97,23 @@ function ClassExample() {
     xf.setSize(1.2, 1.2);
     xf.setPosition(0,3.7);
     
-//    
-//    obj = new SquareRenderable(this.mConstColorShader); // The head
-//    this.mParent.addToSet(obj);
-//    obj.setColor([0.9, 0.8, 0.8, 1]);
-//    xf = obj.getXform();
-//    xf.setSize(1.3, 1.3);
-    
     this.mDirectManipulator = new DirectManipulation(this.mConstColorShader, true);
     var xfDM = this.mDirectManipulator.getXform();
     xfDM.setPosition(0, 5);
     
-    this.mFirstLBMClickPos = [0, 0];
-    this.mDragLMBPos = [0, 0];
+    this.mOldSizeOfDirectManipulatorForScale = xfDM.getSize();
 }
 
-ClassExample.prototype.setFirstLBMClickPos = function (x, y) {
-    
-    console.log("x: " + x);
-    console.log("y: " + y);
-    this.mFirstLBMClickPos = [x, y];
-    
-    console.log("here: " + this.mFirstLBMClickPos);
-};
-
-ClassExample.prototype.getMouseDistanceForScale = function () {
-    if(this.mFirstLBMClickPos !== null && this.mDragLMBPos !== null){
-
-            //console.log(this.mFirstLBMClickPos);
-//        var differenceX = this.mFirstLBMClickPos[0] - this.mDragLMBPos[0];
-//        var differenceY = this.mFirstLBMClickPos[1] - this.mDragLMBPos[1];
-//        return [differenceX, differenceY];
-    }
-};
-
-ClassExample.prototype.scaleSceneNode = function () {
-    if(this.mFirstLBMClickPos !== null && this.mDragLMBPos !== null){
-        var addVal = ClassExample.prototype.getMouseDistanceForScale();
+ClassExample.prototype.scaleSceneNode = function (newX, newY) {
+    console.log("DM SceneNode: " + this.mDirectManipulator.getSceneNode());
+    if(this.mDirectManipulator.getSceneNode() !== null){
+        var oldSize = this.mOldSizeOfDirectManipulatorForScale;
         
-//        if(this.mDirectManipulator.getSceneNode() !== null){
-//            console.log("WHY ISN'T IT WORKING");
-//            
-//            var oldWidth = this.mDirectManipulator.getSceneNode().getXform().getWidth();
-//            this.mDirectManipulator.getSceneNode().getXform().setWidth(oldWidth + addVal[0]);
-//            
-//            var oldHeight = this.mDirectManipulator.getSceneNode().getXform().getHeight();
-//            this.mDirectManipulator.getSceneNode().getXform().setHeight(oldHeight + addVal[1]);
-//        }
+        var dx = newX - this.mDirectManipulator.getXform().getXPos();
+        var dy = newY - this.mDirectManipulator.getXform().getYPos();
+        this.mDirectManipulator.getSceneNode().getXform().setSize(oldSize[0] + dx, oldSize[1] + dy);
     }
+
 };
 
 ClassExample.prototype.toggleHeadSpin = function () {

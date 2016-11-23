@@ -34,9 +34,10 @@ ClassExample.prototype.detectMouseOver = function (wcX, wcY, didLeftClick) {
             this.vmShouldDrawDirectManipulator = true;
             this.moveDirectManipulator(parentPos);
             
-//            if(this.mDirectManipulator.getSceneNode() !== null){
-//                this.mDirectManipulator.removeSceneNode();
-//            }
+            if(this.mDirectManipulator.getSceneNode() !== null &&
+                        this.mDirectManipulator.getSceneNode() !== this.mParent){
+                    this.mDirectManipulator.removeSceneNode();
+                }
             this.mDirectManipulator.setSceneNode(this.mParent);
         }
     }
@@ -56,6 +57,12 @@ ClassExample.prototype.detectMouseOver = function (wcX, wcY, didLeftClick) {
             if (didLeftClick){
                 this.vmShouldDrawDirectManipulator = true;
                 this.moveDirectManipulator(bluePosWC);
+                
+                if(this.mDirectManipulator.getSceneNode() !== null &&
+                        this.mDirectManipulator.getSceneNode() !== this.mLeftChild){
+                    this.mDirectManipulator.removeSceneNode();
+                }
+                this.mDirectManipulator.setSceneNode(this.mLeftChild);
             }
         }
     
@@ -75,6 +82,12 @@ ClassExample.prototype.detectMouseOver = function (wcX, wcY, didLeftClick) {
             if (didLeftClick){
                 this.vmShouldDrawDirectManipulator = true;
                 this.moveDirectManipulator(redPosWC);
+                
+                if(this.mDirectManipulator.getSceneNode() !== null &&
+                        this.mDirectManipulator.getSceneNode() !== this.mTopChild){
+                    this.mDirectManipulator.removeSceneNode();
+                }
+                this.mDirectManipulator.setSceneNode(this.mTopChild);
             }
         }
         
@@ -99,10 +112,6 @@ ClassExample.prototype.detectMouseOver = function (wcX, wcY, didLeftClick) {
                     this.mDirectManipulator.removeSceneNode();
                 }
                 this.mDirectManipulator.setSceneNode(this.mRightChild);
-//                var w = this.mDirectManipulator.getSceneNode().getXform().getWidth();
-//                this.mDirectManipulator.getSceneNode().getXform().setWidth(w + 2);
-//                console.log("upper right arm pos: " + this.mRightChild.getXform().getPosition());
-//                console.log("sceneN Pos of DM: " + this.mDirectManipulator.getSceneNode().getXform().getPosition());
             }
         }
         
@@ -129,8 +138,6 @@ ClassExample.prototype.detectMouseOver = function (wcX, wcY, didLeftClick) {
                 }
                 this.mDirectManipulator.setSceneNode(this.mTopRChild);
                 
-//                console.log("upper right arm pos: " + this.mTopRChild.getXform().getPosition());
-//                console.log("sceneN Pos of DM: " + this.mDirectManipulator.getSceneNode().getXform().getPosition());
             }
         }
         
@@ -141,10 +148,7 @@ ClassExample.prototype.detectMouseOver = function (wcX, wcY, didLeftClick) {
         }
         else if(this.withInBound([dmPos[0] + 1, dmPos[1]], wcPos)){
             overObj = "DM Scale Knob";
-        }
-        //console.log("DM pos: " + this.mDirectManipulator.getXform().getPosition());
-        
-    
+        }   
 
     return posEcho + overObj;
 };

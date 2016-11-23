@@ -78,38 +78,31 @@ myModule.controller("MainCtrl", function ($scope) {
         $scope.mMouseOver = $scope.mMyWorld.detectMouseOver($scope.mLastWCPosX, $scope.mLastWCPosY, (event.which===1));
     };
     
-    $scope.isMouseOnKnob = false;
+    $scope.isMouseOnScaleKnob = false;
+    $scope.isMouseOnRotationKnob = false;
+    $scope.isMouseOnTranslationKnob = false;
     
     $scope.LBDOnKnobPos = function(event){
-        var mouseOverSub = $scope.mMouseOver.substring(11);
+        var mouseOverSub = $scope.mMouseOver.indexOf("DM Scale Knob");
 //        console.log(mouseOverSub);
-        if(mouseOverSub === "DM Rotation Knob" || 
-                mouseOverSub === "DM Scale Knob"){
-            var canvasX = $scope.mCanvasMouse.getPixelXPos(event);
-            var canvasY = $scope.mCanvasMouse.getPixelYPos(event);
-            $scope.mLastWCPosX = this.mView.mouseWCX(canvasX);
-            $scope.mLastWCPosY = this.mView.mouseWCY(canvasY);
-
-            $scope.mMyWorld.setFirstLBMClickPos($scope.mLastWCPosX, $scope.mLastWCPosY);
-           
-            
-            $scope.isMouseOnKnob = true;
+        if($scope.mMouseOver.substring(mouseOverSub)){            
+            $scope.isMouseOnScaleKnob = true;
         }
         else{
-            $scope.isMouseOnKnob = false;
+            $scope.isMouseOnScaleKnob = false;
+//            $scope.mMyWorld.mFirstLBMClickPos = null;
         }
     };
     
     $scope.dragKnobPos = function(event){
-        if($scope.isMouseOnKnob && event.which === 1){
+        console.log("is mouse on scale knob: " + $scope.isMouseOnScaleKnob);
+        if($scope.isMouseOnScaleKnob && event.which === 1){
             var canvasX = $scope.mCanvasMouse.getPixelXPos(event);
             var canvasY = $scope.mCanvasMouse.getPixelYPos(event);
             $scope.mLastWCPosX = this.mView.mouseWCX(canvasX);
             $scope.mLastWCPosY = this.mView.mouseWCY(canvasY);
-            
-            $scope.mMyWorld.mDragLMBPos = [$scope.mLastWCPosX, $scope.mLastWCPosY];
         
-            $scope.mMyWorld.scaleSceneNode();
+            $scope.mMyWorld.scaleSceneNode($scope.mLastWCPosX, $scope.mLastWCPosY);
         }
     };
 });
