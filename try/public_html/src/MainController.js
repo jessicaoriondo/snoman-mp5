@@ -83,26 +83,40 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.isMouseOnTranslationKnob = false;
     
     $scope.LBDOnKnobPos = function(event){
-        var mouseOverSub = $scope.mMouseOver.indexOf("DM Scale Knob");
-//        console.log(mouseOverSub);
-        if($scope.mMouseOver.substring(mouseOverSub)){            
+        var scaleKnobIndex = $scope.mMouseOver.indexOf("DM Scale Knob");
+        var rotationKnobIndex = $scope.mMouseOver.indexOf("DM Rotation Knob");
+        console.log("rotation String" + rotationKnobIndex);
+        
+        if(scaleKnobIndex !== -1){            
             $scope.isMouseOnScaleKnob = true;
+            $scope.isMouseOnRotationKnob = false;
+            $scope.isMouseOnTranslationKnob = false;
+        }
+        else if(rotationKnobIndex !== -1){
+            console.log("rotation time!");
+            $scope.isMouseOnScaleKnob = false;
+            $scope.isMouseOnTranslationKnob = false;
+            $scope.isMouseOnRotationKnob = true;
         }
         else{
             $scope.isMouseOnScaleKnob = false;
+            $scope.isMouseOnRotationKnob = false;
 //            $scope.mMyWorld.mFirstLBMClickPos = null;
         }
     };
     
     $scope.dragKnobPos = function(event){
-        console.log("is mouse on scale knob: " + $scope.isMouseOnScaleKnob);
+        //console.log("is mouse on scale knob: " + $scope.isMouseOnScaleKnob);
+        var canvasX = $scope.mCanvasMouse.getPixelXPos(event);
+        var canvasY = $scope.mCanvasMouse.getPixelYPos(event);
+        $scope.mLastWCPosX = this.mView.mouseWCX(canvasX);
+        $scope.mLastWCPosY = this.mView.mouseWCY(canvasY);
+            
         if($scope.isMouseOnScaleKnob && event.which === 1){
-            var canvasX = $scope.mCanvasMouse.getPixelXPos(event);
-            var canvasY = $scope.mCanvasMouse.getPixelYPos(event);
-            $scope.mLastWCPosX = this.mView.mouseWCX(canvasX);
-            $scope.mLastWCPosY = this.mView.mouseWCY(canvasY);
-        
             $scope.mMyWorld.scaleSceneNode($scope.mLastWCPosX, $scope.mLastWCPosY);
+        }
+        else if($scope.isMouseOnRotationKnob && event.which === 1){
+            $scope.mMyWorld.rotateSceneNode($scope.mLastWCPosX, $scope.mLastWCPosY);
         }
     };
 });

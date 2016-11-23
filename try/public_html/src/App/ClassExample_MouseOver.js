@@ -137,7 +137,8 @@ ClassExample.prototype.detectMouseOver = function (wcX, wcY, didLeftClick) {
                     this.mDirectManipulator.removeSceneNode();
                 }
                 this.mDirectManipulator.setSceneNode(this.mTopRChild);
-                
+//                var oldRad = this.mDirectManipulator.getSceneNode().getXform().getRotationInRad();
+//                this.mDirectManipulator.getSceneNode().getXform().setRotationInRad(oldRad + 1/3.14);
             }
         }
         

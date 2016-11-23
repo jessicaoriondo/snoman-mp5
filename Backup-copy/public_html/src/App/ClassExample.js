@@ -102,11 +102,10 @@ function ClassExample() {
     xfDM.setPosition(0, 5);
     
     this.mOldSizeOfDirectManipulatorForScale = xfDM.getSize();
-    this.mOldRotationInRad = xfDM.getRotationInRad();
 }
 
 ClassExample.prototype.scaleSceneNode = function (newX, newY) {
-    //console.log("DM SceneNode: " + this.mDirectManipulator.getSceneNode());
+    console.log("DM SceneNode: " + this.mDirectManipulator.getSceneNode());
     if(this.mDirectManipulator.getSceneNode() !== null){
         var oldSize = this.mOldSizeOfDirectManipulatorForScale;
         
@@ -115,26 +114,6 @@ ClassExample.prototype.scaleSceneNode = function (newX, newY) {
         this.mDirectManipulator.getSceneNode().getXform().setSize(oldSize[0] + dx, oldSize[1] + dy);
     }
 
-};
-
-ClassExample.prototype.rotateSceneNode = function (newX, newY) {
-    if(this.mDirectManipulator.getSceneNode() !== null){
-        var oldRotation = this.mOldRotationInRad;
-        
-        var dx = newX - this.mDirectManipulator.getXform().getXPos();
-        var dy = newY - this.mDirectManipulator.getXform().getYPos();
-        var sqrDist = Math.sqrt(dx*dx + dy*dy);
-        
-        if(this.mDirectManipulator.getXform().getXPos() < newX && 
-                this.mDirectManipulator.getXform().getYPos() < newY){
-            this.mDirectManipulator.getSceneNode().getXform().setRotationInRad(oldRotation - sqrDist/3.14);
-        }
-        else{
-            this.mDirectManipulator.getSceneNode().getXform().setRotationInRad(oldRotation + sqrDist/3.14);
-        }
-        
-        
-    }
 };
 
 ClassExample.prototype.toggleHeadSpin = function () {
