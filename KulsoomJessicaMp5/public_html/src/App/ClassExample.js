@@ -68,7 +68,7 @@ function ClassExample() {
                             2, 0);
     this.mParent.addAsChild(this.mRightChild);  // <-- WHAT ARE WE DOING?!!
     
-    this.mTopRChild = new ArmSegment(this.mConstColorShader, "LeftGen 2",
+    this.mTopRChild = new ArmSegment(this.mConstColorShader, "RightGen 2",
                             2, 2);
     this.mRightChild.addAsChild(this.mTopRChild);
 
@@ -103,6 +103,7 @@ function ClassExample() {
     
     this.mOldSizeOfDirectManipulatorForScale = xfDM.getSize();
     this.mOldRotationInRad = xfDM.getRotationInRad();
+    this.mOldPosition = xfDM.getPosition();
 }
 
 ClassExample.prototype.scaleSceneNode = function (newX, newY) {
@@ -119,21 +120,158 @@ ClassExample.prototype.scaleSceneNode = function (newX, newY) {
 
 ClassExample.prototype.rotateSceneNode = function (newX, newY) {
     if(this.mDirectManipulator.getSceneNode() !== null){
-        var oldRotation = this.mOldRotationInRad;
+
+        var n = vec2.fromValues(0, 1);
+        var mouseVec = vec2.fromValues(newX, newY);
+        var manipVec = vec2.fromValues(this.mDirectManipulator.getXform().getXPos(), this.mDirectManipulator.getXform().getYPos());
         
-        var dx = newX - this.mDirectManipulator.getXform().getXPos();
-        var dy = newY - this.mDirectManipulator.getXform().getYPos();
-        var sqrDist = Math.sqrt(dx*dx + dy*dy);
+        vec2.subtract(mouseVec, mouseVec, manipVec);
+
+        vec2.normalize(mouseVec, mouseVec);
+
+        var dotProd = vec2.dot(n, mouseVec);
         
-        if(this.mDirectManipulator.getXform().getXPos() < newX && 
-                this.mDirectManipulator.getXform().getYPos() < newY){
-            this.mDirectManipulator.getSceneNode().getXform().setRotationInRad(oldRotation - sqrDist/3.14);
+        var theta = Math.acos(dotProd);
+        
+        var result = vec3.fromValues(0, 0, 0);
+        result = vec2.cross(result, n, mouseVec);
+  
+        if(result[2] < 0){
+            this.mDirectManipulator.getSceneNode().getXform().setRotationInRad(theta * -1);
         }
         else{
-            this.mDirectManipulator.getSceneNode().getXform().setRotationInRad(oldRotation + sqrDist/3.14);
+            this.mDirectManipulator.getSceneNode().getXform().setRotationInRad(theta);
+            
+        }  
+    }
+};
+
+ClassExample.prototype.translateSceneNode = function (newX, newY) {
+    //console.log("DM SceneNode: " + this.mDirectManipulator.getSceneNode());
+    if(this.mDirectManipulator.getSceneNode() !== null){
+        var translationX = 0.0;
+        var translationY = 0.0;
+        
+        var parentSize = this.mParent.getXform().getSize();
+        var mManipulatorName = this.mDirectManipulator.getSceneNode().mName;
+        var mManipulatorPosition = this.mDirectManipulator.getXform().getPosition();
+        
+        //get difference (how much manipulator moved)
+        translationX = mManipulatorPosition[0] - newX;
+        translationY = mManipulatorPosition[1] - newY;
+        
+        //set new position of manipulator
+        this.mDirectManipulator.getXform().setPosition(newX,newY);
+        
+        //get the actual positions of the scene node selected
+        translationX = this.mDirectManipulator.getSceneNode().getXform().getXPos() - translationX;
+        translationY = this.mDirectManipulator.getSceneNode().getXform().getYPos() - translationY;
+        
+        
+        if(mManipulatorName === "Root"){
+            this.mDirectManipulator.getSceneNode().getXform().setPosition(newX, newY);
         }
+        else if(mManipulatorName.indexOf("1") !== -1)
+        {
+                    
+            this.mDirectManipulator.getSceneNode().getXform().setPosition(translationX/parentSize[0], translationY/parentSize[1]);
+            
+        }
+        else
+        {
+            var childScale = 0.0;
+            if(this.mDirectManipulator.getSceneNode().mName === "LeftGen 2"){
+                console.log("moving left");
+                childScale = this.mLeftChild.getXform().getSize();
+            }
+            else
+            {
+                childScale = this.mRightChild.getXform().getSize();
+            }
+            
+            var scaleRespectToChildX = translationX/childScale[0];
+            var scaleRespectToChildY = translationY/childScale[1];
+            this.mDirectManipulator.getSceneNode().getXform().setPosition(scaleRespectToChildX/parentSize[0],scaleRespectToChildY/parentSize[1]);
+            //this.mDirectManipulator.getXform().setPosition(scaleRespectToChildX/parentSize[0],scaleRespectToChildY/parentSize[1]);
+        }
+            
+    }
+};
+
+ClassExample.prototype.translateSceneNode2 = function (newX, newY) {
+    //console.log("DM SceneNode: " + this.mDirectManipulator.getSceneNode());
+    if(this.mDirectManipulator.getSceneNode() !== null){
+        var translationX = 0.0;
+        var translationY = 0.0;
+        
+        var parentSize = this.mParent.getXform().getSize();
+        
+        var mManipulatorName = this.mDirectManipulator.getSceneNode().mName;
+        var mManipulatorPosition = this.mDirectManipulator.getXform().getPosition();
+        
+        //get difference (how much manipulator moved)
+        translationX = mManipulatorPosition[0] - newX;
+        translationY = mManipulatorPosition[1] - newY;
+        
+        //set new position of manipulator
+        this.mDirectManipulator.getXform().setPosition(newX,newY);
+        
+        //get the actual positions of the scene node selected
+        translationX = this.mDirectManipulator.getSceneNode().getXform().getXPos() - translationX;
+        translationY = this.mDirectManipulator.getSceneNode().getXform().getYPos() - translationY;
         
         
+        if(mManipulatorName === "Root"){
+            this.mDirectManipulator.getSceneNode().getXform().setPosition(newX, newY);
+        }
+        else if(mManipulatorName.indexOf("1") !== -1)
+        {
+            if(parentSize[0] === 1 && parentSize[1] === 1){
+                this.mDirectManipulator.getSceneNode().getXform().setPosition(translationX/parentSize[0], translationY/parentSize[1]);
+            }
+            else{
+                if(mManipulatorName.indexOf("Right") !== -1){   
+                    this.mDirectManipulator.getSceneNode().getXform().setPosition((newX - 2)/parentSize[0], newY/parentSize[1]);
+                   
+                }
+                else{
+                    this.mDirectManipulator.getSceneNode().getXform().setPosition((newX + 2)/parentSize[0], newY/parentSize[1]);
+                }
+                
+            }
+        }
+        else
+        {
+            var childScale = 0.0;
+            var scaleRespectToChildX = 0.0;
+            var scaleRespectToChildY = 0.0;
+            if(this.mDirectManipulator.getSceneNode().mName === "LeftGen 2"){
+                
+                console.log("moving left");
+                childScale = this.mLeftChild.getXform().getSize();
+                scaleRespectToChildX = (newX + 2)/childScale[0];
+                scaleRespectToChildY = (newY - 2)/childScale[1];
+            }
+            else
+            {
+                childScale = this.mRightChild.getXform().getSize();
+                scaleRespectToChildX = (newX - 2)/childScale[0];
+                scaleRespectToChildY = (newY - 2)/childScale[1];
+            }
+            
+            
+            if(parentSize[0] === 1 && parentSize[1] === 1 && childScale[0] === 1
+                    && childScale[1] === 1){
+                scaleRespectToChildX = translationX/childScale[0];
+                scaleRespectToChildY = translationY/childScale[1];
+                this.mDirectManipulator.getSceneNode().getXform().setPosition(scaleRespectToChildX/parentSize[0],scaleRespectToChildY/parentSize[1]);
+            }
+            else{
+
+                this.mDirectManipulator.getSceneNode().getXform().setPosition(scaleRespectToChildX/parentSize[0], scaleRespectToChildY/parentSize[1]);
+            }
+        }
+            
     }
 };
 

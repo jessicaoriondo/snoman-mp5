@@ -85,6 +85,7 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.LBDOnKnobPos = function(event){
         var scaleKnobIndex = $scope.mMouseOver.indexOf("DM Scale Knob");
         var rotationKnobIndex = $scope.mMouseOver.indexOf("DM Rotation Knob");
+        var translationKnobIndex = $scope.mMouseOver.indexOf("Nothing");
         console.log("rotation String" + rotationKnobIndex);
         
         if(scaleKnobIndex !== -1){            
@@ -98,9 +99,19 @@ myModule.controller("MainCtrl", function ($scope) {
             $scope.isMouseOnTranslationKnob = false;
             $scope.isMouseOnRotationKnob = true;
         }
+        else if(translationKnobIndex === -1){
+            if(!$scope.isMouseOnTranslationKnob){
+                console.log("translating");
+                $scope.isMouseOnScaleKnob = false;
+                $scope.isMouseOnTranslationKnob = true;
+                $scope.isMouseOnRotationKnob = false;
+            }
+        }
         else{
             $scope.isMouseOnScaleKnob = false;
             $scope.isMouseOnRotationKnob = false;
+            $scope.isMouseOnTranslationKnob = false;
+            $scope.mMyWorld.vmShouldDrawDirectManipulator = false;
 //            $scope.mMyWorld.mFirstLBMClickPos = null;
         }
     };
@@ -117,6 +128,9 @@ myModule.controller("MainCtrl", function ($scope) {
         }
         else if($scope.isMouseOnRotationKnob && event.which === 1){
             $scope.mMyWorld.rotateSceneNode($scope.mLastWCPosX, $scope.mLastWCPosY);
+        }
+        else if($scope.isMouseOnTranslationKnob && event.which === 1){
+            $scope.mMyWorld.translateSceneNode2($scope.mLastWCPosX, $scope.mLastWCPosY);
         }
     };
 });
