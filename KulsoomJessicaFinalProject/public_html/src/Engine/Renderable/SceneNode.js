@@ -32,8 +32,6 @@ SceneNode.prototype.getXform = function () { return this.mXform; };
 
 SceneNode.prototype.size = function () { return this.mSet.length; };
 
-SceneNode.prototype.numberOfChildren = function () { return this.mChildren.length; };
-
 SceneNode.prototype.getRenderableAt = function (index) {
     return this.mSet[index];
 };

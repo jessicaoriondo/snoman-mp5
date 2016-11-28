@@ -43,6 +43,8 @@ myModule.controller("MainCtrl", function ($scope) {
                 [0, 0, 800, 600]);  // viewport: left, bottom, width, height
 
     $scope.mainTimerHandler = function () {
+        // 1. update the world
+        $scope.mMyWorld.update();
         
         // Step E: Clear the canvas
         gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1]);        // Clear the canvas
@@ -73,11 +75,7 @@ myModule.controller("MainCtrl", function ($scope) {
         var canvasY = $scope.mCanvasMouse.getPixelYPos(event);
         $scope.mLastWCPosX = this.mView.mouseWCX(canvasX);
         $scope.mLastWCPosY = this.mView.mouseWCY(canvasY);
-        if (event.which === 1) { // left mouse clicked
-            // console.log("Movement:" + event.movementX + " " + event.movementY)
-            $scope.mMouseOver = $scope.mMyWorld.detectMouseOver(
-                                        $scope.mLastWCPosX, $scope.mLastWCPosY);
-        }
+        $scope.mMouseOver = $scope.mMyWorld.detectMouseOver($scope.mLastWCPosX, $scope.mLastWCPosY, (event.which===1));
     };
     
     $scope.isMouseOnScaleKnob = false;
@@ -134,9 +132,5 @@ myModule.controller("MainCtrl", function ($scope) {
         else if($scope.isMouseOnTranslationKnob && event.which === 1){
             $scope.mMyWorld.translateSceneNode2($scope.mLastWCPosX, $scope.mLastWCPosY);
         }
-    };
-    
-    $scope.serviceMouseUp = function(event) {
-        $scope.mMyWorld.resetSelection();
     };
 });

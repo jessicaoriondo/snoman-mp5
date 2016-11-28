@@ -15,44 +15,6 @@ function DirectManipulation(shader, drawPivot) {
     this.mXform = new PivotedTransform();
     
     this.mSceneNode = null;
-    this.mObjToWCMatrix = null;
-    
-    this.mTriggeredColor = [1, 1, 1, 1];
-    
-    this.mStratPosX = 0;
-    this.mStartPosY = 0;
-    
-    this.kWidth = 0.05;
-    this.mTol = 0.15;
-    this.kKnobSize = 0.25;
-    this.kKnobLength = 1;
-    
-    this.kTriggerMode = {
-        eTriggerModeMove: 0,
-        eTriggerModeScale: 1,
-        eTriggerModeRotate: 2,
-        eTriggerModeNone: 3
-    };
-    
-    this.mTrigger = [
-        {   // 0 is move, center
-            mTriggerControl: this.mPivotPos,
-            mTriggerColor: [1, 0.6, 0.6, 1],
-            mTriggerPos: [0, 0]
-        },
-        {   // 1 is scale, horizontal
-            mTriggerControl: null,
-            mTriggerColor: [1, 0.8, 0.4, 1],
-            mTriggerPos: [this.kKnobLength, 0]
-        },
-        {   // 2 is rotate
-            mTriggerControl: null,
-            mTriggerColor: [1, 0, 1, 1],
-            mTriggerPos: [0, this.kKnobLength]
-        }   
-    ];
-    
-    this.mTriggerMode = this.kTriggerMode.eTriggerModeNone;
 
     // this is for debugging only: for drawing the pivot position
     this.mPivotPos = null;
@@ -91,18 +53,6 @@ function DirectManipulation(shader, drawPivot) {
     xfScalePoint.setPosition(1, 0);
     this.mElements.push(this.mScalePoint);
 }
-
-DirectManipulation.prototype.isActivated = function () { return this.mObjToWCMatrix !== null; };
-
-DirectManipulation.prototype.setXformMatrix = function (m, sn) {
-    if (this.mSceneNode !== null) {
-        this.mSceneNode = null;
-    }
-    this.mObjToWCMatrix = m;
-    this.mSceneNode = sn;
-//    if (this.mSceneNode !== null)
-//        this.mSceneNode.setManipulator(this);
-};
 
 DirectManipulation.prototype.getRotationPoint = function () {
     return this.mRotationPoint;
@@ -163,4 +113,24 @@ DirectManipulation.prototype.draw = function (aCamera) {
         xf.setPosition(p[0] + t[0], p[1] + t[1]);
         this.mPivotPos.draw(aCamera);
     }
+};
+
+DirectManipulation.prototype.mayHaveCollided = function(wcPos) { // other is anotehr Renderable
+    var myXf = this.mPivotPos.getXform();
+//    var urXf = other.getXform();
+
+    var dx = myXf.getXPos() - wcPos[0];
+    var dy = myXf.getYPos() - wcPos[1];
+    
+//    console.log("pivot x: " + myXf.getXPos());
+//    console.log("pivot y: " + myXf.getYPos());
+//    console.log("mouse x: " + wcPos[0]);
+//    console.log("mouse y: " + wcPos[1]);
+    
+    
+    var distBetweenCenter = dx*dx + dy*dy;
+    
+//    console.log("distance: " + distBetweenCenter);
+
+    return distBetweenCenter <= 2;
 };

@@ -9,6 +9,11 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function ClassExample() {
+    this.mSizeChange = 0.01;
+    this.mChildShouldUpdate = false;
+    this.mArmShouldRotate = false;
+    this.mHeadShouldSpin = false;
+    
     this.vmShouldDrawControl = false;
     
     this.vmShouldDrawDirectManipulator = false;
@@ -45,6 +50,30 @@ function ClassExample() {
     this.mPurpleSq.setColor([146/255, 2/255, 249/255, 1]);
     this.mPurpleSq.getXform().setSize(0.25, 0.25);
     
+    this.mPinkSq = new SquareRenderable(this.mConstColorShader);
+    this.mPinkSq.setColor([252/255, 2/255, 210/255, 1]);
+    this.mPinkSq.getXform().setSize(0.25, 0.25);
+    
+    this.mBrownSq = new SquareRenderable(this.mConstColorShader);
+    this.mBrownSq.setColor([89/255, 51/255, 6/255, 1]);
+    this.mBrownSq.getXform().setSize(0.25, 0.25);
+    
+    this.mOrangeSq = new SquareRenderable(this.mConstColorShader);
+    this.mOrangeSq.setColor([252/255, 139/255, 2/255, 1]);
+    this.mOrangeSq.getXform().setSize(0.25, 0.25);
+    
+    this.mGraySq = new SquareRenderable(this.mConstColorShader);
+    this.mGraySq.setColor([122/255, 119/255, 116/255, 1]);
+    this.mGraySq.getXform().setSize(0.25, 0.25);
+    
+    this.mTealSq = new SquareRenderable(this.mConstColorShader);
+    this.mTealSq.setColor([2/255, 242/255, 242/255, 1]);
+    this.mTealSq.getXform().setSize(0.25, 0.25);
+    
+    this.mGreenSq = new SquareRenderable(this.mConstColorShader);
+    this.mGreenSq.setColor([17/255, 86/255, 26/255, 1]);
+    this.mGreenSq.getXform().setSize(0.25, 0.25);
+    
     //mouse
     this.mXfSq =  new SquareRenderable(this.mConstColorShader);
     this.mXfSq.setColor([0.4, 0, 0.4, 1]);
@@ -55,7 +84,7 @@ function ClassExample() {
                             -2, 0);
     this.mParent.addAsChild(this.mLeftChild);
     this.mTopChild = new ArmSegment(this.mConstColorShader, "LeftGen 2",
-                            -2, 2);
+                            -2, 1.2);
     this.mLeftChild.addAsChild(this.mTopChild);
     //this.mTopChild.getXform().setPosition(0, 0);
 
@@ -64,8 +93,35 @@ function ClassExample() {
     this.mParent.addAsChild(this.mRightChild);  // <-- WHAT ARE WE DOING?!!
     
     this.mTopRChild = new ArmSegment(this.mConstColorShader, "RightGen 2",
-                            2, 2);
+                            2, 1.2);
     this.mRightChild.addAsChild(this.mTopRChild);
+    
+    this.mLeftChild.getXform().setPosition(0.6, 2);
+    this.mRightChild.getXform().setPosition(-0.6, 2);
+    
+    this.mNose = new CarrotNose(this.mConstColorShader);
+    this.mNose.getXform().setPosition(0, 3.6);
+    this.mParent.addAsChild(this.mNose);
+    
+    this.mButtons = new Buttons(this.mConstColorShader);
+    this.mButtons.getXform().setPosition(0, 1.5);
+    this.mParent.addAsChild(this.mButtons);
+    
+    this.mEyeBrows = new EyeBrows(this.mConstColorShader);
+    this.mEyeBrows.getXform().setPosition(0, 4.3);
+    this.mParent.addAsChild(this.mEyeBrows);
+    
+    this.mEyes = new Eyes(this.mConstColorShader);
+    this.mEyes.getXform().setPosition(0, 4);
+    this.mParent.addAsChild(this.mEyes);
+    
+    this.mMouth = new Mouth(this.mConstColorShader);
+    this.mMouth.getXform().setPosition(0, 3.2);
+    this.mParent.addAsChild(this.mMouth);
+    
+    this.mHat = new Hat(this.mConstColorShader);
+    this.mHat.getXform().setPosition(0, 5);
+    this.mParent.addAsChild(this.mHat);
     
     this.mDirectManipulator = new DirectManipulation(this.mConstColorShader, true);
     var xfDM = this.mDirectManipulator.getXform();
@@ -245,9 +301,19 @@ ClassExample.prototype.translateSceneNode2 = function (newX, newY) {
     }
 };
 
+ClassExample.prototype.toggleHeadSpin = function () {
+    this.mHeadShouldSpin = !this.mHeadShouldSpin; };
+
+ClassExample.prototype.toggleChildUpdate = function () {
+    this.mChildShouldUpdate = !this.mChildShouldUpdate; };
+
+ClassExample.prototype.toggleArmRotate = function () {
+    this.mArmShouldRotate = !this.mArmShouldRotate; };
+
 ClassExample.prototype.draw = function (camera) {
     // Step F: Starts the drawing by activating the camera
     camera.setupViewProjection();
+    
 
     this.mParent.draw(camera);
     if (this.vmShouldDrawControl) {
@@ -256,11 +322,44 @@ ClassExample.prototype.draw = function (camera) {
         this.mRedSq.draw(camera);
         this.mYellowSq.draw(camera);
         this.mPurpleSq.draw(camera);
+        this.mPinkSq.draw(camera);
+        this.mOrangeSq.draw(camera);
+        this.mBrownSq.draw(camera);
+        this.mGraySq.draw(camera);
+        this.mTealSq.draw(camera);
+        this.mGreenSq.draw(camera);
         this.mXfSq.draw(camera);
     }
     
     if(this.vmShouldDrawDirectManipulator){
         this.mDirectManipulator.draw(camera);
+    }
+};
+
+ClassExample.prototype.update = function () {
+    if (this.mChildShouldUpdate) {
+        this.mLeftChild.update();
+        this.mRightChild.update();
+        this.mTopChild.update();
+    }
+    
+    // 1. rotate the head (middle square on body)
+    if (this.mHeadShouldSpin) {
+        var xf = this.mParent.getRenderableAt(1).getXform(); // this is the middle square
+        xf.incRotationByDegree(2);
+        var d = xf.getRotationInDegree();
+    }
+    
+    // 2. extend the lower-left hand
+    if (this.mArmShouldRotate) {
+        xf = this.leftChildXform();
+        xf.incSizeBy(this.mSizeChange);
+        if ((xf.getWidth() > 1.2) || (xf.getWidth() < 0.8))
+            this.mSizeChange = -this.mSizeChange;
+    
+        // 3. slowly rotat the top arm
+        xf = this.topChildXform();
+        xf.incRotationByDegree(-1);
     }
 };
 
@@ -289,13 +388,4 @@ ClassExample.prototype.parentXform = function () {
 
 ClassExample.prototype.directManipulatorXform = function () {
     return this.mDirectManipulator.getXform();
-};
-
-// *** GLOBAL funciton for bound checking ...
-
-var kBoundTol = 0.2;
-// check if (wcx, wcy) is close enough to (px, py) by kBountTol
-var withInBound = function (p, wc) {
-    return ( ((p[0] - kBoundTol) < wc[0]) && (wc[0] < (p[0] + kBoundTol)) &&
-             ((p[1] - kBoundTol) < wc[1]) && (wc[1] < (p[1] + kBoundTol)) );
 };
