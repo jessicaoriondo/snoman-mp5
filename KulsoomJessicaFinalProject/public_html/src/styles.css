@@ -1,13 +1,14 @@
 
 
 body{
-    background-image: url("../assets/bg2.jpg");
+    background-image: url("../assets/snow4.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-color: darkslategrey ; 
     height: 100%;
     overflow: scroll;
     text-align: left;
+    background-position-y: 20%;
 }
 
 
