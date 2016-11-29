@@ -13,6 +13,7 @@
 function DirectManipulation(shader, drawPivot) {
     this.mElements = [];
     this.mXform = new PivotedTransform();
+    this.mRodLength = 0.5;
     
     this.mSceneNode = null;
 
@@ -28,31 +29,35 @@ function DirectManipulation(shader, drawPivot) {
     this.mRR = new SquareRenderable(shader);
     this.mRR.setColor([0, 0, 0, 1]);
     var xfRR = this.mRR.getXform();
-    xfRR.setSize(0.05, 1);
-    xfRR.setPosition(0, 0.5);
+    xfRR.setSize(0.05, this.mRodLength);
+    xfRR.setPosition(0, this.mRodLength/2);
     this.mElements.push(this.mRR);
     
     this.mRotationPoint = new SquareRenderable(shader);
     this.mRotationPoint.setColor([2/255, 202/255, 252/255, 1]);
     var xfRotationPoint = this.mRotationPoint.getXform();
     xfRotationPoint.setSize(0.15, 0.15);
-    xfRotationPoint.setPosition(0, 1);
+    xfRotationPoint.setPosition(0, this.mRodLength);
     this.mElements.push(this.mRotationPoint);
     
     this.mSR = new SquareRenderable(shader);
     this.mSR.setColor([0, 0, 0, 1]);
     var xfSR = this.mSR.getXform();
-    xfSR.setSize(1, 0.05);
-    xfSR.setPosition(0.5, 0);
+    xfSR.setSize(this.mRodLength, 0.05);
+    xfSR.setPosition(this.mRodLength/2, 0);
     this.mElements.push(this.mSR);
     
     this.mScalePoint = new SquareRenderable(shader);
     this.mScalePoint.setColor([7/255, 239/255, 34/255, 1]);
     var xfScalePoint = this.mScalePoint.getXform();
     xfScalePoint.setSize(0.15, 0.15);
-    xfScalePoint.setPosition(1, 0);
+    xfScalePoint.setPosition(this.mRodLength, 0);
     this.mElements.push(this.mScalePoint);
 }
+
+DirectManipulation.prototype.getRodLength = function () {
+    return this.mRodLength;
+};
 
 DirectManipulation.prototype.getRotationPoint = function () {
     return this.mRotationPoint;

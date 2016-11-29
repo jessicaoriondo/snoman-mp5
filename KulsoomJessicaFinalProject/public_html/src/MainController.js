@@ -43,8 +43,6 @@ myModule.controller("MainCtrl", function ($scope) {
                 [0, 0, 800, 600]);  // viewport: left, bottom, width, height
 
     $scope.mainTimerHandler = function () {
-        // 1. update the world
-        $scope.mMyWorld.update();
         
         // Step E: Clear the canvas
         gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1]);        // Clear the canvas
@@ -130,7 +128,7 @@ myModule.controller("MainCtrl", function ($scope) {
             $scope.mMyWorld.rotateSceneNode($scope.mLastWCPosX, $scope.mLastWCPosY);
         }
         else if($scope.isMouseOnTranslationKnob && event.which === 1){
-            $scope.mMyWorld.translateSceneNode2($scope.mLastWCPosX, $scope.mLastWCPosY);
+            $scope.mMyWorld.translateSceneNode3($scope.mLastWCPosX, $scope.mLastWCPosY);
         }
     };
     
@@ -173,5 +171,5 @@ myModule.controller("MainCtrl", function ($scope) {
                 
                 break;
         }
-    }
+    };
 });

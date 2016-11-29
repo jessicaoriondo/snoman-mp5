@@ -8,7 +8,7 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function SnowmanBody(shader) {
-    SceneNode.call(this, shader, "Base", true);
+    SceneNode.call(this, shader, "Root", true);
     
     this.mPivotPos = new SquareRenderable(shader);
     this.addToSet(this.mPivotPos);
