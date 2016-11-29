@@ -146,7 +146,7 @@ ClassExample.prototype.createArmSegment = function(x,y)
     var grandChildArm = new ArmSegment(this.mConstColorShader, "LeftGen 2",
                             x, y + 1.2);
     childArm.addAsChild(grandChildArm);
-}
+};
 
 ClassExample.prototype.addHat = function()
 {
@@ -384,18 +384,25 @@ ClassExample.prototype.draw = function (camera) {
     
 
     this.mParent.draw(camera);
+    //this.mParent.drawPivot(camera);
+    var m = this.mParent.getXform().getXform();
+    if(this.vmShouldDrawControl){
+        for(var i = 0; i < this.mParent.childrenSize(); i++){
+            var mChild = this.mParent.getChildAt(i).getXform().getXform();
+            mat4.multiply(mChild, m, mChild);
+            this.mParent.getChildAt(i).drawPivot(camera, mChild);
+            //mChild = this.mParent.getChildAt(i).getXform().getXform();
+            if(this.mParent.getChildAt(i).childrenSize() > 0){
+                for(var j = 0; j < this.mParent.getChildAt(i).childrenSize(); j++){
+                    var grandChild = this.mParent.getChildAt(i).getChildAt(j).getXform().getXform();
+                    mat4.multiply(grandChild, mChild, grandChild);
+                    this.mParent.getChildAt(i).getChildAt(j).drawPivot(camera, grandChild);
+                }       
+            }
+        }
+    }
     if (this.vmShouldDrawControl) {
         this.mHeadSq.draw(camera);
-        this.mBlueSq.draw(camera);
-        this.mRedSq.draw(camera);
-        this.mYellowSq.draw(camera);
-        this.mPurpleSq.draw(camera);
-        this.mPinkSq.draw(camera);
-        this.mOrangeSq.draw(camera);
-        this.mBrownSq.draw(camera);
-        this.mGraySq.draw(camera);
-        this.mTealSq.draw(camera);
-        this.mGreenSq.draw(camera);
         this.mXfSq.draw(camera);
     }
     

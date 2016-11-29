@@ -10,6 +10,13 @@
 
 function Eyes(shader) {
     SceneNode.call(this, shader, "Eyes", false);  // calling super class constructor
+    
+    this.mPivotPos = new SquareRenderable(shader);
+    this.addToSet(this.mPivotPos);
+    this.mPivotPos.setColor([1, 0, 0, 1]); // default color
+    var xf = this.mPivotPos.getXform();
+    xf.setSize(0.2, 0.2); // always this size
+    xf.setPosition(0, 0);
 
     var obj = new CircleRenderable(shader);
     this.addToSet(obj);
@@ -30,4 +37,17 @@ gEngine.Core.inheritPrototype(Eyes, SceneNode);
 
 Eyes.prototype.parentXform = function () {
     return this.getXform();
+};
+
+Eyes.prototype.getPivot = function () {
+    return this.mPivotPos;
+};
+
+Eyes.prototype.drawPivot = function (aCamera, parentMat) {
+//    var pxf = this.getXform();
+//    var t = pxf.getPosition();
+//    var p = pxf.getPivot();
+//    var xf = this.mPivotPos.getXform();
+//    xf.setPosition(p[0] + t[0], p[1] + t[1]);
+    this.mPivotPos.draw(aCamera, parentMat);
 };

@@ -15,22 +15,36 @@ function SceneNode(shader, name, drawPivot) {
     this.mSet = [];
     this.mChildren = [];
     this.mXform = new PivotedTransform();
+//    this.mtoggleDrawPivot = true;
 
-    // this is for debugging only: for drawing the pivot position
-    this.mPivotPos = null;
-    if ((drawPivot !== undefined) && (drawPivot === true)) {
-        this.mPivotPos = new SquareRenderable(shader);
-        this.mPivotPos.setColor([1, 0, 0, 1]); // default color
-        var xf = this.mPivotPos.getXform();
-        xf.setSize(0.2, 0.2); // always this size
-    }
+//    this.mPivotPos = new SquareRenderable(shader);
+//    this.mPivotPos.setColor([1, 0, 0, 1]); // default color
+//    var xf = this.mPivotPos.getXform();
+//    xf.setSize(0.2, 0.2); // always this size
+
 }
+
+//SceneNode.prototype.toggleDrawPivot = function () { 
+//    if(this.mtoggleDrawPivot){
+//        this.mtoggleDrawPivot = false;
+//    }
+//    else{
+//        this.mtoggleDrawPivot = true;
+//    }
+//};
+
 SceneNode.prototype.setName = function (n) { this.mName = n; };
 SceneNode.prototype.getName = function () { return this.mName; };
 
 SceneNode.prototype.getXform = function () { return this.mXform; };
 
 SceneNode.prototype.size = function () { return this.mSet.length; };
+
+SceneNode.prototype.childrenSize = function () { return this.mChildren.length; };
+
+//SceneNode.prototype.getPivot = function () {
+//    return this.mPivotPos;
+//};
 
 SceneNode.prototype.getRenderableAt = function (index) {
     return this.mSet[index];
@@ -69,7 +83,7 @@ SceneNode.prototype.draw = function (aCamera, parentMat) {
         mat4.multiply(xfMat, parentMat, xfMat);
     
     // Draw our own!
-    for (i = 0; i < this.mSet.length; i++) {
+    for (i = 1; i < this.mSet.length; i++) {
         this.mSet[i].draw(aCamera, xfMat); // pass to each renderable
     }
     
@@ -79,12 +93,21 @@ SceneNode.prototype.draw = function (aCamera, parentMat) {
     }
     
     // for debugging, let's draw the pivot position
-    if (this.mPivotPos !== null) {
-        var pxf = this.getXform();
-        var t = pxf.getPosition();
-        var p = pxf.getPivot();
-        var xf = this.mPivotPos.getXform();
-        xf.setPosition(p[0] + t[0], p[1] + t[1]);
-        this.mPivotPos.draw(aCamera, parentMat);
-    }
+//    if (this.mtoggleDrawPivot) {
+//        var pxf = this.getXform();
+//        var t = pxf.getPosition();
+//        var p = pxf.getPivot();
+//        var xf = this.mPivotPos.getXform();
+//        xf.setPosition(p[0] + t[0], p[1] + t[1]);
+//        this.mPivotPos.draw(aCamera, parentMat);
+//    }
 };
+
+//SceneNode.prototype.drawPivot = function (aCamera, parentMat) {
+//    var pxf = this.getXform();
+//    var t = pxf.getPosition();
+//    var p = pxf.getPivot();
+//    var xf = this.mPivotPos.getXform();
+//    xf.setPosition(p[0] + t[0], p[1] + t[1]);
+//    this.mPivotPos.draw(aCamera, parentMat);
+//};

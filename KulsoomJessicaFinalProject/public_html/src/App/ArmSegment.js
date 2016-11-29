@@ -14,6 +14,13 @@ function ArmSegment(shader, name, xPivot, yPivot) {
     var xf = this.getXform();
     xf.setPivot(xPivot, yPivot);
     
+    this.mPivotPos = new SquareRenderable(shader);
+    this.addToSet(this.mPivotPos);
+    this.mPivotPos.setColor([1, 0, 0, 1]); // default color
+    xf = this.mPivotPos.getXform();
+    xf.setSize(0.2, 0.2); // always this size
+    xf.setPosition(xPivot, yPivot);
+    
     // now create the children shapes
     var obj = new SquareRenderable(shader);  // base
     this.addToSet(obj);
@@ -62,4 +69,12 @@ ArmSegment.prototype.update = function () {
     xf.incSizeBy(this.mPulseRate);
     if (xf.getWidth() > 0.7 || xf.getWidth() < 0.4)
         this.mPulseRate = -this.mPulseRate;
+};
+
+ArmSegment.prototype.getPivot = function () {
+    return this.mPivotPos;
+};
+
+ArmSegment.prototype.drawPivot = function (aCamera, parentMat) {
+    this.mPivotPos.draw(aCamera, parentMat);
 };
