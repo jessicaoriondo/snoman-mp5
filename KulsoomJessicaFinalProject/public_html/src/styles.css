@@ -31,6 +31,25 @@ body{
 
 }
 
+.button{
+    width: 70px;
+    height: 70px;
+    padding: 7px;
+    
+    border-radius: 20px;
+    border: 2px #131313;
+    box-shadow: 0 9px #999;
+    background-color: lightskyblue;
+    
+    margin: 10px;
+}
+
+.button:active {
+  background-color: cornflowerblue;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
 h1{
    font-family: 'open sans',arial,sans-serif;
   font-size: 50px;

@@ -9,6 +9,9 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function ClassExample() {
+    this.armDistX = 0;
+    this.armDistY = 1.2;
+    
     this.mSizeChange = 0.01;
     this.mChildShouldUpdate = false;
     this.mArmShouldRotate = false;
@@ -132,6 +135,69 @@ function ClassExample() {
     this.mOldPosition = xfDM.getPosition();
 }
 
+ClassExample.prototype.createArmSegment = function(x,y)
+{
+    //child
+    var childArm = new ArmSegment(this.mConstColorShader, "LeftGen 1",
+                            x, y);
+    this.mParent.addAsChild(childArm);
+    
+    //grandChild
+    var grandChildArm = new ArmSegment(this.mConstColorShader, "LeftGen 2",
+                            x, y + 1.2);
+    childArm.addAsChild(grandChildArm);
+}
+
+ClassExample.prototype.addHat = function()
+{
+     var hat = new Hat(this.mConstColorShader);
+     hat.getXform().setPosition(-5, 5);
+     this.mParent.addAsChild(hat);
+};
+
+ClassExample.prototype.addMouth = function()
+{
+     var mouth = new Mouth(this.mConstColorShader);
+     mouth.getXform().setPosition(-5, 5);
+     this.mParent.addAsChild(mouth);
+};
+
+ClassExample.prototype.addEyes = function()
+{
+     var eyes = new Eyes(this.mConstColorShader);
+     eyes.getXform().setPosition(-5, 5);
+     this.mParent.addAsChild(eyes);
+};
+
+ClassExample.prototype.addNose = function()
+{
+     var nose = new CarrotNose(this.mConstColorShader);
+     nose.getXform().setPosition(-5, 5);
+     this.mParent.addAsChild(nose);
+};
+
+ClassExample.prototype.addButtons = function()
+{
+     var buttons = new Buttons(this.mConstColorShader);
+     buttons.getXform().setPosition(-5, 5);
+     this.mParent.addAsChild(buttons);
+};
+
+ClassExample.prototype.addArms = function()
+{
+    console.log("adding arms called");
+     //var arms = new ArmSegment(this.mConstColorShader);
+     this.createArmSegment(-5, 5);
+     //this.mParent.addAsChild(arms);
+};
+
+ClassExample.prototype.addEyebrows = function()
+{
+     var eyebrows = new EyeBrows(this.mConstColorShader);
+     eyebrows.getXform().setPosition(-5, 5);
+     this.mParent.addAsChild(eyebrows);
+};
+
 ClassExample.prototype.scaleSceneNode = function (newX, newY) {
     //console.log("DM SceneNode: " + this.mDirectManipulator.getSceneNode());
     if(this.mDirectManipulator.getSceneNode() !== null){
@@ -223,6 +289,8 @@ ClassExample.prototype.translateSceneNode = function (newX, newY) {
             
     }
 };
+
+
 
 ClassExample.prototype.translateSceneNode2 = function (newX, newY) {
     //console.log("DM SceneNode: " + this.mDirectManipulator.getSceneNode());

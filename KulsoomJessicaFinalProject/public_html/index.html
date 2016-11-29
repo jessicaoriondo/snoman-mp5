@@ -80,6 +80,48 @@
                                 ng-click="serviceSelection()"> &nbsp;
                     </label>-->
                 </div>
+                <!--table within a table [for buttons]-->
+                <h2> Mode: {{mMode}}</h2>
+                <h2>Add item to your snowman: </h2>
+                <table>
+                    <tr>
+                        <td>
+                            <input class="button" type="image" src="./assets/buttons/hat.png" ng-click="addItem('hat')"/>
+                        </td>
+                        <td>
+                            <input class="button" type="image" src="./assets/buttons/mouth.png" ng-click="addItem('mouth')"/>
+                        </td>
+                        <td>
+                            <input class="button" type="image" src="./assets/buttons/eyes.png" ng-click="addItem('eyes')"/>
+                        </td>
+                         <td>
+                            <input class="button" type="image" src="./assets/buttons/nose.png" ng-click="addItem('nose')"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="button" type="image" src="./assets/buttons/button.png" ng-click="addItem('button')"/>
+                        </td>
+                        <td>
+                            <input class="button" type="image" src="./assets/buttons/arms.png" ng-click="addItem('arms')"/>
+                        </td>
+                        <td>
+                            <input class="button" type="image" src="./assets/buttons/eyebrows.png" ng-click="addItem('eyebrows')"/>
+                        </td>
+                    </tr>
+                </table>
+                <h2> Free Shapes </h2>
+                <table>
+                    <tr>
+                        <td>
+                            <input class="button" type="image" src="./assets/buttons/circle2.png" ng-click="addItem('circle')"/>
+                        </td>
+                        <td>
+                            <input class="button" type="image" src="./assets/buttons/square.png" ng-click="addItem('square')"/>
+                        </td>
+                    </tr>
+                </table>
+                
             </th>
             <th id ="myCanvas">
                 <div >
@@ -94,6 +136,7 @@
                 </div>
             </th>
         </tr>
+        
     </table>
                    
     </body>

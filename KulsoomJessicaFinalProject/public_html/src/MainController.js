@@ -19,7 +19,7 @@ myModule.controller("MainCtrl", function ($scope) {
     // Initialize the graphics system
     gEngine.Core.initializeWebGL('GLCanvas');
     $scope.mCanvasMouse = new CanvasMouseSupport('GLCanvas');
-    
+    $scope.mMode = "Build Mode";
     // Radio button selection support
     $scope.eSelection = [
         {label: "Parent"},
@@ -133,4 +133,45 @@ myModule.controller("MainCtrl", function ($scope) {
             $scope.mMyWorld.translateSceneNode2($scope.mLastWCPosX, $scope.mLastWCPosY);
         }
     };
+    
+    $scope.addItem = function(SceneName)
+    {
+        // create a function in classexample that adds a scene node to the parent-->
+        // have an array of sceneNode -->
+        // create a switch statement in here-->
+        // check for sceneName then call function to add SceneNode to parent-->
+        switch(SceneName)
+        {
+            case "hat":
+                 console.log("Item added " + SceneName);
+                 $scope.mMyWorld.addHat();
+                
+                break;
+            case "mouth":
+                 console.log("Item added " + SceneName);
+                 $scope.mMyWorld.addMouth();
+                break;
+                
+            case "eyes":
+                $scope.mMyWorld.addEyes();
+                break;
+                
+            case "nose":
+                $scope.mMyWorld.addNose();
+                break;
+                
+            case "eyebrows":
+                $scope.mMyWorld.addEyebrows();
+                break;
+            
+            case "button":
+                $scope.mMyWorld.addButtons();
+                break;
+            
+            case "arms":
+                $scope.mMyWorld.addArms();
+                
+                break;
+        }
+    }
 });
