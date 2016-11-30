@@ -168,7 +168,14 @@ myModule.controller("MainCtrl", function ($scope) {
             
             case "arms":
                 $scope.mMyWorld.addArms();
-                
+                break;
+            
+            case "circle":
+                $scope.mMyWorld.addCircle();
+                break;
+            
+            case "square":
+                $scope.mMyWorld.addSquare();
                 break;
         }
     };

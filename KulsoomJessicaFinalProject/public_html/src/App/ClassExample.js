@@ -107,6 +107,20 @@ ClassExample.prototype.addEyebrows = function()
      this.mParent.addAsChild(eyebrows);
 };
 
+ClassExample.prototype.addCircle = function()
+{
+     var circle = new CircleFreeShape(this.mConstColorShader);
+     circle.getXform().setPosition(-5, 5);
+     this.mParent.addAsChild(circle);
+};
+
+ClassExample.prototype.addSquare = function()
+{
+     var square = new SquareFreeShape(this.mConstColorShader);
+     square.getXform().setPosition(-5, 5);
+     this.mParent.addAsChild(square);
+};
+
 ClassExample.prototype.scaleSceneNode = function (newX, newY) {
     //console.log("DM SceneNode: " + this.mDirectManipulator.getSceneNode());
     if(this.mDirectManipulator.getSceneNode() !== null){
