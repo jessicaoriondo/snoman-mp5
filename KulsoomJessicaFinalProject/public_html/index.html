@@ -11,6 +11,7 @@
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script type="text/javascript" src="src/lib/gl-matrix.js"></script>
         <script type="text/javascript" src="src/lib/webgl-obj-loader.js"></script>
+        <script type="text/javascript" src="src/lib/jscolor.js"></script>
         <link rel="stylesheet" type="text/css" href="src/styles.css">
 
         <!-- Engine code: Graphics Support -->
@@ -50,6 +51,10 @@
         <script type="text/javascript" src="src/App/Eyes.js"></script>
         <script type="text/javascript" src="src/App/Hat.js"></script>
         <script type="text/javascript" src="src/App/Mouth.js"></script>
+        <script type="text/javascript" src="src/App/SquareFreeShape.js"></script>
+        <script type="text/javascript" src="src/App/CircleFreeShape.js"></script>
+        <script type="text/javascript" src="src/App/HexagonFreeShape.js"></script>
+        <script type="text/javascript" src="src/App/TriangleFreeShape.js"></script>
     </head>
 
     <body
@@ -119,9 +124,9 @@
                         <td>
                             <input class="button" type="image" src="./assets/buttons/square.png" ng-click="addItem('square')"/>
                         </td>
+                        
                     </tr>
                 </table>
-                
             </th>
             <th id ="myCanvas">
                 <div >
