@@ -121,6 +121,20 @@ ClassExample.prototype.addSquare = function()
      this.mParent.addAsChild(square);
 };
 
+ClassExample.prototype.addTriangle = function()
+{
+     var triangle = new TriangleFreeShape(this.mConstColorShader);
+     triangle.getXform().setPosition(-5, 5);
+     this.mParent.addAsChild(triangle);
+};
+
+ClassExample.prototype.addHexagon = function()
+{
+     var hexagon = new HexagonFreeShape(this.mConstColorShader);
+     hexagon.getXform().setPosition(-5, 5);
+     this.mParent.addAsChild(hexagon);
+};
+
 ClassExample.prototype.scaleSceneNode = function (newX, newY) {
     //console.log("DM SceneNode: " + this.mDirectManipulator.getSceneNode());
     if(this.mDirectManipulator.getSceneNode() !== null){

@@ -177,6 +177,14 @@ myModule.controller("MainCtrl", function ($scope) {
             case "square":
                 $scope.mMyWorld.addSquare();
                 break;
+                
+            case "triangle":
+            $scope.mMyWorld.addTriangle();
+            break;
+            
+            case "hexagon":
+                $scope.mMyWorld.addHexagon();
+                break;
         }
     };
 });
