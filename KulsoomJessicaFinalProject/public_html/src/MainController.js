@@ -38,9 +38,14 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.mLastWCPosY = 0;
 
     $scope.mView = new Camera(
-                [0, 3],         // wc Center
-                15,                // wc Wdith
-                [0, 0, 800, 600]);  // viewport: left, bottom, width, height
+                [-15, 10],         // wc Center
+                50,                // wc Wdith
+                [0, 0, 1200, 600]);  // viewport: left, bottom, width, height
+                
+    $scope.mBuildView = new Camera(
+                [-15, 8],         // wc Center
+                50,                // wc Wdith
+                [0, 0, 400, 600]);  // viewport: left, bottom, width, height
 
     $scope.mainTimerHandler = function () {
         
