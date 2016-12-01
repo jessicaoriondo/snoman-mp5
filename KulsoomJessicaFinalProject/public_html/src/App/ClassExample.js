@@ -42,6 +42,8 @@ function ClassExample() {
     this.mOldSizeOfDirectManipulatorForScale = xfDM.getSize();
     this.mOldRotationInRad = xfDM.getRotationInRad();
     this.mOldPosition = xfDM.getPosition();
+    
+    this.childWCPos = [-3, 4];
 }
 
 ClassExample.prototype.createArmSegment = function(x,y)
@@ -60,35 +62,35 @@ ClassExample.prototype.createArmSegment = function(x,y)
 ClassExample.prototype.addHat = function()
 {
      var hat = new Hat(this.mConstColorShader);
-     hat.getXform().setPosition(-5, 5);
+     hat.getXform().setPosition(this.childWCPos[0], this.childWCPos[1]);
      this.mParent.addAsChild(hat);
 };
 
 ClassExample.prototype.addMouth = function()
 {
      var mouth = new Mouth(this.mConstColorShader);
-     mouth.getXform().setPosition(-5, 5);
+     mouth.getXform().setPosition(this.childWCPos[0], this.childWCPos[1]);
      this.mParent.addAsChild(mouth);
 };
 
 ClassExample.prototype.addEyes = function()
 {
      var eyes = new Eyes(this.mConstColorShader);
-     eyes.getXform().setPosition(-5, 5);
+     eyes.getXform().setPosition(this.childWCPos[0], this.childWCPos[1]);
      this.mParent.addAsChild(eyes);
 };
 
 ClassExample.prototype.addNose = function()
 {
      var nose = new CarrotNose(this.mConstColorShader);
-     nose.getXform().setPosition(-5, 5);
+     nose.getXform().setPosition(this.childWCPos[0], this.childWCPos[1]);
      this.mParent.addAsChild(nose);
 };
 
 ClassExample.prototype.addButtons = function()
 {
      var buttons = new Buttons(this.mConstColorShader);
-     buttons.getXform().setPosition(-5, 5);
+     buttons.getXform().setPosition(this.childWCPos[0], this.childWCPos[1]);
      this.mParent.addAsChild(buttons);
 };
 
@@ -96,42 +98,42 @@ ClassExample.prototype.addArms = function()
 {
     console.log("adding arms called");
      //var arms = new ArmSegment(this.mConstColorShader);
-     this.createArmSegment(-5, 5);
+     this.createArmSegment(this.childWCPos[0], this.childWCPos[1]);
      //this.mParent.addAsChild(arms);
 };
 
 ClassExample.prototype.addEyebrows = function()
 {
      var eyebrows = new EyeBrows(this.mConstColorShader);
-     eyebrows.getXform().setPosition(-5, 5);
+     eyebrows.getXform().setPosition(this.childWCPos[0], this.childWCPos[1]);
      this.mParent.addAsChild(eyebrows);
 };
 
 ClassExample.prototype.addCircle = function()
 {
      var circle = new CircleFreeShape(this.mConstColorShader);
-     circle.getXform().setPosition(-5, 5);
+     circle.getXform().setPosition(this.childWCPos[0], this.childWCPos[1]);
      this.mParent.addAsChild(circle);
 };
 
 ClassExample.prototype.addSquare = function()
 {
      var square = new SquareFreeShape(this.mConstColorShader);
-     square.getXform().setPosition(-5, 5);
+     square.getXform().setPosition(this.childWCPos[0], this.childWCPos[1]);
      this.mParent.addAsChild(square);
 };
 
 ClassExample.prototype.addTriangle = function()
 {
      var triangle = new TriangleFreeShape(this.mConstColorShader);
-     triangle.getXform().setPosition(-5, 5);
+     triangle.getXform().setPosition(this.childWCPos[0], this.childWCPos[1]);
      this.mParent.addAsChild(triangle);
 };
 
 ClassExample.prototype.addHexagon = function()
 {
      var hexagon = new HexagonFreeShape(this.mConstColorShader);
-     hexagon.getXform().setPosition(-5, 5);
+     hexagon.getXform().setPosition(this.childWCPos[0], this.childWCPos[1]);
      this.mParent.addAsChild(hexagon);
 };
 

@@ -20,6 +20,7 @@ myModule.controller("MainCtrl", function ($scope) {
     gEngine.Core.initializeWebGL('GLCanvas');
     $scope.mCanvasMouse = new CanvasMouseSupport('GLCanvas');
     $scope.mMode = "Build Mode";
+    $scope.activateBuildMode = true;
     // Radio button selection support
     $scope.eSelection = [
         {label: "Parent"},
@@ -27,6 +28,8 @@ myModule.controller("MainCtrl", function ($scope) {
         {label: "TopChild"},
         {label: "RightChild"}
     ];
+    
+    $scope.mWhichCamera = "Large";
 
        // this is the model
     $scope.mMyWorld = new ClassExample();
@@ -41,11 +44,51 @@ myModule.controller("MainCtrl", function ($scope) {
                 [-15, 10],         // wc Center
                 50,                // wc Wdith
                 [0, 0, 1200, 600]);  // viewport: left, bottom, width, height
+    //$scope.mView.setBackgroundColor([0.9, 0.7, 0.7, 0.1]);
                 
     $scope.mBuildView = new Camera(
-                [-15, 8],         // wc Center
-                50,                // wc Wdith
-                [0, 0, 400, 600]);  // viewport: left, bottom, width, height
+                [0, 2],// wc Center
+                10, // wc width
+                [0, 0, 600, 600]);  // viewport: left, bottom, width, height
+                
+    $scope.mBuildView.setBackgroundColor([124/255, 170/255, 244/255, .5]);
+    $scope.mBuildView.setViewport([0, 0, 600, 600]);
+    
+    $scope.computeWCPos = function (event) {
+        var wcPos = [0, 0];
+        $scope.mClientX = event.clientX;
+        $scope.mClientY = event.clientY;
+        
+        $scope.mCanvasX = $scope.mCanvasMouse.getPixelXPos(event);
+        $scope.mCanvasY = $scope.mCanvasMouse.getPixelYPos(event);
+        var useCam = $scope.mView; // assume using this camera
+        $scope.mWhichCamera = "Large";
+        if ($scope.mBuildView.isMouseInViewport($scope.mCanvasX, $scope.mCanvasY)) {
+            useCam = $scope.mBuildView;
+            $scope.mWhichCamera = "Small";
+        }
+        
+        // these are "private functions" on the camera, 
+        // for the purpose of clear illustration, we will call them
+        $scope.mViewportX = useCam._viewportX($scope.mCanvasX);
+        $scope.mViewportY = useCam._viewportY($scope.mCanvasY);
+        
+        wcPos[0] = useCam.mouseWCX($scope.mCanvasX);
+        wcPos[1] = useCam.mouseWCY($scope.mCanvasY);
+        $scope.mCameraX = wcPos[0];
+        $scope.mCameraY = wcPos[1];
+       
+        return wcPos;
+    };
+    
+    $scope.toggleBuildMode = function(){
+        if($scope.activateBuildMode){
+            $scope.activateBuildMode = false;
+        }
+        else{
+            $scope.activateBuildMode = true;
+        }
+    };
 
     $scope.mainTimerHandler = function () {
         
@@ -54,6 +97,9 @@ myModule.controller("MainCtrl", function ($scope) {
         //
         // $scope.mMyWorld.update();
         $scope.mMyWorld.draw($scope.mView);
+        if($scope.activateBuildMode){
+            $scope.mMyWorld.draw($scope.mBuildView);
+        }
     };
 
     $scope.serviceSelection = function () {
@@ -74,11 +120,9 @@ myModule.controller("MainCtrl", function ($scope) {
     };
 
     $scope.serviceMove = function (event) {
-        var canvasX = $scope.mCanvasMouse.getPixelXPos(event);
-        var canvasY = $scope.mCanvasMouse.getPixelYPos(event);
-        $scope.mLastWCPosX = this.mView.mouseWCX(canvasX);
-        $scope.mLastWCPosY = this.mView.mouseWCY(canvasY);
-        $scope.mMouseOver = $scope.mMyWorld.detectMouseOver($scope.mLastWCPosX, $scope.mLastWCPosY, (event.which===1));
+
+        var wcPos = $scope.computeWCPos(event);
+        $scope.mMouseOver = $scope.mMyWorld.detectMouseOver(wcPos[0], wcPos[1], (event.which===1));
     };
     
     $scope.isMouseOnScaleKnob = false;
@@ -120,20 +164,17 @@ myModule.controller("MainCtrl", function ($scope) {
     };
     
     $scope.dragKnobPos = function(event){
-        //console.log("is mouse on scale knob: " + $scope.isMouseOnScaleKnob);
-        var canvasX = $scope.mCanvasMouse.getPixelXPos(event);
-        var canvasY = $scope.mCanvasMouse.getPixelYPos(event);
-        $scope.mLastWCPosX = this.mView.mouseWCX(canvasX);
-        $scope.mLastWCPosY = this.mView.mouseWCY(canvasY);
+
+        var wcPos = $scope.computeWCPos(event);
             
         if($scope.isMouseOnScaleKnob && event.which === 1){
-            $scope.mMyWorld.scaleSceneNode($scope.mLastWCPosX, $scope.mLastWCPosY);
+            $scope.mMyWorld.scaleSceneNode(wcPos[0], wcPos[1]);
         }
         else if($scope.isMouseOnRotationKnob && event.which === 1){
-            $scope.mMyWorld.rotateSceneNode($scope.mLastWCPosX, $scope.mLastWCPosY);
+            $scope.mMyWorld.rotateSceneNode(wcPos[0], wcPos[1]);
         }
         else if($scope.isMouseOnTranslationKnob && event.which === 1){
-            $scope.mMyWorld.translateSceneNode3($scope.mLastWCPosX, $scope.mLastWCPosY);
+            $scope.mMyWorld.translateSceneNode3(wcPos[0], wcPos[1]);
         }
     };
     
