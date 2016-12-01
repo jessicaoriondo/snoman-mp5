@@ -84,9 +84,11 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.toggleBuildMode = function(){
         if($scope.activateBuildMode){
             $scope.activateBuildMode = false;
+            $scope.mMode = "Game Mode";
         }
         else{
             $scope.activateBuildMode = true;
+            $scope.mMode = "Build Mode";
         }
     };
 
@@ -124,6 +126,32 @@ myModule.controller("MainCtrl", function ($scope) {
         var wcPos = $scope.computeWCPos(event);
         $scope.mMouseOver = $scope.mMyWorld.detectMouseOver(wcPos[0], wcPos[1], (event.which===1));
     };
+    
+    $scope.serviceKeyPress = function(event) {
+        if($scope.mMode === "Game Mode")
+        {
+            var parentPos = $scope.mMyWorld.parentXform().getPosition();
+            var parentXpos = $scope.mView.mouseWCX(parentPos[0]);
+            var parentYpos = $scope.mView.mouseWCX(parentPos[1]);
+            var inBounds = $scope.mView.isMouseInViewport(parentPos[0], parentPos[1]);
+            
+            if(!inBounds)
+            {
+                alert("out");
+            }
+            switch(event.keyCode){
+            case 39: //right arrow key
+                $scope.mMyWorld.parentXform().incXPosBy(1);
+                break;
+            case 37: //left arrow key
+                
+                $scope.mMyWorld.parentXform().incXPosBy(-1);
+                break;
+                
+            }
+        }
+    };
+
     
     $scope.isMouseOnScaleKnob = false;
     $scope.isMouseOnRotationKnob = false;

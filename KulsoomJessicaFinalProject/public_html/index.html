@@ -59,7 +59,9 @@
 
     <body
          ng-app="appMyExample" 
-         ng-controller="MainCtrl">
+         ng-controller="MainCtrl"
+         ng-keydown="serviceKeyPress($event)">
+        
         
         <h1> Do You Want to Build a Snowman? </h1>
         
@@ -140,6 +142,8 @@
                     <canvas 
                         ng-mousemove="serviceMove($event); dragKnobPos($event)"
                         ng-mousedown="serviceMove($event); LBDOnKnobPos($event)"
+                        
+                        
                         id="GLCanvas" width="1200" height="600">
                         <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
                         Your browser does not support the HTML5 canvas.
