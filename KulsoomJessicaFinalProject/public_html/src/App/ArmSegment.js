@@ -78,3 +78,8 @@ ArmSegment.prototype.getPivot = function () {
 ArmSegment.prototype.drawPivot = function (aCamera, parentMat) {
     this.mPivotPos.draw(aCamera, parentMat);
 };
+
+ArmSegment.prototype.setColor = function (color) {
+
+    this.mSet[1].setColor(color);
+};

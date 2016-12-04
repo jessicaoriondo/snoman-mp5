@@ -23,10 +23,6 @@ function ClassExample() {
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
     
-    //snowman body
-    this.mHeadSq = new SquareRenderable(this.mConstColorShader);
-    this.mHeadSq.setColor([0.2, 1.0, 0.2, 1]);
-    this.mHeadSq.getXform().setSize(0.25, 0.25);
     
     //mouse
     this.mXfSq =  new SquareRenderable(this.mConstColorShader);
@@ -46,11 +42,26 @@ function ClassExample() {
     this.childWCPos = [-3, 4]; //child scene node positions
     
     this.mIsDeleteMode = false;
+    
+    this.mColorChange = null;
 }
 
-ClassExample.prototype.changeColor = function(obj, color)
+ClassExample.prototype.changeColor = function()
 {
-    obj.setColor(color[0], color[1], color[2], 1);
+    if(this.vmShouldDrawDirectManipulator &&
+            this.mDirectManipulator.getSceneNode() !== null && 
+            this.mColorChange !== null){
+        
+        this.mDirectManipulator.getSceneNode().setColor(this.mColorChange);
+        
+        if(this.mDirectManipulator.getSceneNode().childrenSize() > 0){
+            for(var i = 0; i < this.mDirectManipulator.getSceneNode().childrenSize(); i++){
+                this.mDirectManipulator.getSceneNode().getChildAt(i).setColor(this.mColorChange);
+            }
+        }
+        
+        this.mColorChange = null;
+    }
 };
 
 ClassExample.prototype.createArmSegment = function(x,y)
@@ -344,7 +355,6 @@ ClassExample.prototype.draw = function (camera) {
         }
     }
     if (this.vmShouldDrawControl) {
-        this.mHeadSq.draw(camera);
         this.mXfSq.draw(camera);
     }
     

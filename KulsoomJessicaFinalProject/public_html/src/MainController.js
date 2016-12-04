@@ -22,6 +22,7 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.mMode = "Build Mode";
     $scope.activateBuildMode = true;
     $scope.isDeleteModeActivated = false;
+    $scope.colorHex = "no color chosen";
     // Radio button selection support
     $scope.eSelection = [
         {label: "Parent"},
@@ -54,6 +55,28 @@ myModule.controller("MainCtrl", function ($scope) {
                 
     $scope.mBuildView.setBackgroundColor([124/255, 170/255, 244/255, .5]);
     $scope.mBuildView.setViewport([0, 0, 600, 600]);
+     
+    
+    //http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+    var convertHexToRGB = function(hex){
+        var r, g, b;
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        r = parseInt(result[1], 16);
+        g = parseInt(result[2], 16);
+        b = parseInt(result[3], 16);
+        
+        return [r/255, g/255, b/255, 1];
+    };
+   
+    //binded to color picker with ng-change
+    //it will change color of the most recent shape
+    $scope.changeColor = function(){
+        
+        if($scope.mMyWorld.vmShouldDrawDirectManipulator){
+            console.log("here");
+            $scope.mMyWorld.mColorChange = convertHexToRGB($scope.colorHex);
+        }
+    };
     
     $scope.computeWCPos = function (event) {
         var wcPos = [0, 0];
@@ -127,6 +150,8 @@ myModule.controller("MainCtrl", function ($scope) {
         if($scope.activateBuildMode){
             $scope.mMyWorld.draw($scope.mBuildView);
         }
+        
+        $scope.mMyWorld.changeColor();
     };
 
     $scope.serviceSelection = function () {

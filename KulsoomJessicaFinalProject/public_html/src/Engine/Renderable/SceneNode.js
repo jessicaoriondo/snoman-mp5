@@ -114,3 +114,9 @@ SceneNode.prototype.draw = function (aCamera, parentMat) {
 //    xf.setPosition(p[0] + t[0], p[1] + t[1]);
 //    this.mPivotPos.draw(aCamera, parentMat);
 //};
+
+SceneNode.prototype.setColor = function (color) {
+    for(var i = 0; i < this.mSet.length; i++){
+        this.mSet[i].setColor(color);
+    }
+};
