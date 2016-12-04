@@ -21,6 +21,7 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.mCanvasMouse = new CanvasMouseSupport('GLCanvas');
     $scope.mMode = "Build Mode";
     $scope.activateBuildMode = true;
+    $scope.isDeleteModeActivated = false;
     // Radio button selection support
     $scope.eSelection = [
         {label: "Parent"},
@@ -84,11 +85,35 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.toggleBuildMode = function(){
         if($scope.activateBuildMode){
             $scope.activateBuildMode = false;
+            $scope.mMyWorld.mIsDeleteMode = false;
             $scope.mMode = "Game Mode";
         }
         else{
+            $scope.mMyWorld.mIsDeleteMode = false;
             $scope.activateBuildMode = true;
             $scope.mMode = "Build Mode";
+        }
+    };
+    
+    $scope.activateDeleteMode = function(){
+        if($scope.isDeleteModeActivated){
+            $scope.isDeleteModeActivated = false;
+            $scope.mMyWorld.mIsDeleteMode = false;
+            $scope.mMode = "Build Mode";
+        }
+        else{
+            $scope.isDeleteModeActivated = true;
+            $scope.mMyWorld.mIsDeleteMode = true;
+            $scope.mMode = "Delete Mode";
+        }
+    };
+    
+    $scope.userDeleteShape = function(event){
+        
+        var wcPos = $scope.computeWCPos(event);
+        if($scope.mMode === "Delete Mode"){
+            console.log("Trying to delete...");
+            $scope.mMyWorld.detectMouseOverToDelete(wcPos[0], wcPos[1], event.which === 1);
         }
     };
 
@@ -137,7 +162,7 @@ myModule.controller("MainCtrl", function ($scope) {
             
             if(!inBounds)
             {
-                alert("out");
+                //alert("out");
             }
             switch(event.keyCode){
             case 39: //right arrow key
@@ -163,18 +188,18 @@ myModule.controller("MainCtrl", function ($scope) {
         var translationKnobIndex = $scope.mMouseOver.indexOf("Nothing");
         console.log("rotation String" + rotationKnobIndex);
         
-        if(scaleKnobIndex !== -1){            
+        if(scaleKnobIndex !== -1 && $scope.mMode !== "Delete Mode"){            
             $scope.isMouseOnScaleKnob = true;
             $scope.isMouseOnRotationKnob = false;
             $scope.isMouseOnTranslationKnob = false;
         }
-        else if(rotationKnobIndex !== -1){
+        else if(rotationKnobIndex !== -1 && $scope.mMode !== "Delete Mode"){
             console.log("rotation time!");
             $scope.isMouseOnScaleKnob = false;
             $scope.isMouseOnTranslationKnob = false;
             $scope.isMouseOnRotationKnob = true;
         }
-        else if(translationKnobIndex === -1){
+        else if(translationKnobIndex === -1 && $scope.mMode !== "Delete Mode"){
             if(!$scope.isMouseOnTranslationKnob){
                 console.log("translating");
                 $scope.isMouseOnScaleKnob = false;

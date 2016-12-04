@@ -75,6 +75,9 @@ SceneNode.prototype.removeChild= function (node) {
 SceneNode.prototype.getChildAt = function (index) {
     return this.mChildren[index];
 };
+SceneNode.prototype.getChildren = function () {
+    return this.mChildren;
+};
 
 SceneNode.prototype.draw = function (aCamera, parentMat) {
     var i;

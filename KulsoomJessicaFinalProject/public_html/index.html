@@ -90,6 +90,7 @@
                 <!--table within a table [for buttons]-->
                 <h2> Mode: {{mMode}}</h2>
                 <button ng-click="toggleBuildMode()">Done</button>
+                <button ng-click="activateDeleteMode()">Delete</button>
                 <h2>Add item to your snowman: </h2>
                 <table>
                     <tr>
@@ -141,7 +142,7 @@
                 <div >
                     <canvas 
                         ng-mousemove="serviceMove($event); dragKnobPos($event)"
-                        ng-mousedown="serviceMove($event); LBDOnKnobPos($event)"
+                        ng-mousedown="serviceMove($event); LBDOnKnobPos($event); userDeleteShape($event)"
                         
                         
                         id="GLCanvas" width="1200" height="600">

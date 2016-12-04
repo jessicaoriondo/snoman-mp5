@@ -43,8 +43,15 @@ function ClassExample() {
     this.mOldRotationInRad = xfDM.getRotationInRad();
     this.mOldPosition = xfDM.getPosition();
     
-    this.childWCPos = [-3, 4];
+    this.childWCPos = [-3, 4]; //child scene node positions
+    
+    this.mIsDeleteMode = false;
 }
+
+ClassExample.prototype.changeColor = function(obj, color)
+{
+    obj.setColor(color[0], color[1], color[2], 1);
+};
 
 ClassExample.prototype.createArmSegment = function(x,y)
 {
@@ -341,8 +348,16 @@ ClassExample.prototype.draw = function (camera) {
         this.mXfSq.draw(camera);
     }
     
-    if(this.vmShouldDrawDirectManipulator){
+    if(this.vmShouldDrawDirectManipulator && !this.mIsDeleteMode){
         this.mDirectManipulator.draw(camera);
+    }
+    
+    if(this.mIsDeleteMode){
+        this.mXfSq.draw(camera);
+        this.mXfSq.setColor([249/255, 0, 220/255, 1]);
+    }
+    else{
+        this.mXfSq.setColor([0.4, 0, 0.4, 1]);
     }
 };
 
