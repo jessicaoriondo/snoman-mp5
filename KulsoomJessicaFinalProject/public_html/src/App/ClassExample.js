@@ -442,7 +442,7 @@ ClassExample.prototype.dropIcicle = function()
     {
         var vel = this.mIcicles[i].getVelocity();
         this.mIcicles[i].getXform().incYPosBy(-vel);
-        this.mIcicles[i].incVelocity(0.025);
+        this.mIcicles[i].incVelocity(0.05);
     }
 };
 

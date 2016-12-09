@@ -160,8 +160,9 @@ myModule.controller("MainCtrl", function ($scope) {
         
         if($scope.mMode === "Game Mode")
         {
-            $scope.mMyWorld.dropIcicle();
+            
             $scope.mMyWorld.drawIcicles($scope.mView);
+            $scope.mMyWorld.dropIcicle();
             
         }
     };
