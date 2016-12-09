@@ -23,6 +23,7 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.activateBuildMode = true;
     $scope.isDeleteModeActivated = false;
     $scope.colorHex = "no color chosen";
+    $scope.hideButtons = false;
     // Radio button selection support
     $scope.eSelection = [
         {label: "Parent"},
@@ -110,11 +111,15 @@ myModule.controller("MainCtrl", function ($scope) {
             $scope.activateBuildMode = false;
             $scope.mMyWorld.mIsDeleteMode = false;
             $scope.mMode = "Game Mode";
+            $scope.mMyWorld.destroyIcicles();
+            $scope.hideButtons = true;
         }
         else{
             $scope.mMyWorld.mIsDeleteMode = false;
             $scope.activateBuildMode = true;
             $scope.mMode = "Build Mode";
+            $scope.mMyWorld.mParent.getXform().setPosition(0,0);
+            $scope.hideButtons = false;
         }
     };
     
@@ -152,6 +157,20 @@ myModule.controller("MainCtrl", function ($scope) {
         }
         
         $scope.mMyWorld.changeColor();
+        
+        if($scope.mMode === "Game Mode")
+        {
+            $scope.mMyWorld.dropIcicle();
+            $scope.mMyWorld.drawIcicles($scope.mView);
+            
+        }
+    };
+    
+    //ADDING ICICLE TIME HANDLER
+    $scope.icicleTimerHandler = function()
+    {
+                   
+            $scope.addIcicle();
     };
 
     $scope.serviceSelection = function () {
@@ -181,23 +200,28 @@ myModule.controller("MainCtrl", function ($scope) {
         if($scope.mMode === "Game Mode")
         {
             var parentPos = $scope.mMyWorld.parentXform().getPosition();
-            var parentXpos = $scope.mView.mouseWCX(parentPos[0]);
-            var parentYpos = $scope.mView.mouseWCX(parentPos[1]);
-            var inBounds = $scope.mView.isMouseInViewport(parentPos[0], parentPos[1]);
+            //var parentXpos = $scope.mView.mouseWCX(parentPos[0]);
+            //var parentYpos = $scope.mView.mouseWCX(parentPos[1]);
+            var leftBound = $scope.mView.mouseWCX(0);
+            var rightBound = $scope.mView.mouseWCX(1200);
             
-            if(!inBounds)
+            //alert(parentPos[0] + " "+ leftBound + " "+ rightBound);
+            if(parentPos[0] < rightBound && parentPos[0] > leftBound)
             {
-                //alert("out");
-            }
-            switch(event.keyCode){
-            case 39: //right arrow key
-                $scope.mMyWorld.parentXform().incXPosBy(1);
-                break;
-            case 37: //left arrow key
-                
-                $scope.mMyWorld.parentXform().incXPosBy(-1);
-                break;
-                
+                switch(event.keyCode){
+                case 39: //right arrow key
+                    if(parentPos[0]+2 < rightBound){
+                        $scope.mMyWorld.parentXform().incXPosBy(1);
+                    }
+                    break;
+                case 37: //left arrow key
+                    if(parentPos[0]-2 > leftBound)
+                    {
+                        $scope.mMyWorld.parentXform().incXPosBy(-1);
+                    }
+                    break;
+
+                }
             }
         }
     };
@@ -258,10 +282,7 @@ myModule.controller("MainCtrl", function ($scope) {
     
     $scope.addItem = function(SceneName)
     {
-        // create a function in classexample that adds a scene node to the parent-->
-        // have an array of sceneNode -->
-        // create a switch statement in here-->
-        // check for sceneName then call function to add SceneNode to parent-->
+        
         switch(SceneName)
         {
             case "hat":
@@ -310,5 +331,20 @@ myModule.controller("MainCtrl", function ($scope) {
                 $scope.mMyWorld.addHexagon();
                 break;
         }
+    };
+    
+    //handle icicles
+    
+    $scope.getRandomNum = function(min, max)
+    {
+        return Math.random() * (max - min + 1) + min;
+    };
+    
+    $scope.addIcicle = function()
+    {
+        var leftBound = $scope.mView.mouseWCX(0);
+        var rightBound = $scope.mView.mouseWCX(1200);
+        var xpos = $scope.getRandomNum(leftBound-1, rightBound-1);
+        $scope.mMyWorld.addIcicle(xpos);
     };
 });

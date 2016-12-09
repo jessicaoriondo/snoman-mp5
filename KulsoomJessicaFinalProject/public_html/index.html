@@ -25,6 +25,7 @@
         <script type="text/javascript" src="src/Engine/Renderable/CircleRenderable.js"></script>
         <script type="text/javascript" src="src/Engine/Renderable/TriangleRenderable.js"></script>
         <script type="text/javascript" src="src/Engine/Renderable/HexagonRenderable.js"></script>
+        <script type="text/javascript" src="src/Engine/Renderable/IcicleRenderable.js"></script>
         <script type="text/javascript" src="src/Engine/Renderable/MeshRenderable.js"></script>
         <script type="text/javascript" src="src/Engine/Renderable/SceneNode.js"></script>
         <script type="text/javascript" src="src/Engine/Transform/Transform.js"></script>
@@ -51,10 +52,12 @@
         <script type="text/javascript" src="src/App/Eyes.js"></script>
         <script type="text/javascript" src="src/App/Hat.js"></script>
         <script type="text/javascript" src="src/App/Mouth.js"></script>
+        <script type="text/javascript" src="src/App/Icicle.js"></script> 
         <script type="text/javascript" src="src/App/SquareFreeShape.js"></script>
         <script type="text/javascript" src="src/App/CircleFreeShape.js"></script>
         <script type="text/javascript" src="src/App/HexagonFreeShape.js"></script>
         <script type="text/javascript" src="src/App/TriangleFreeShape.js"></script>
+        
     </head>
 
     <body
@@ -70,6 +73,11 @@
                interval="40"
                timeron="true"
                callback="mainTimerHandler"></css-timer>
+    
+    <css-timer id="icicleControllerTimer"
+           interval="500"
+           timeron="true"
+           callback="icicleTimerHandler"></css-timer>
                
     <br>
     <table>
@@ -91,8 +99,8 @@
                 <h2> Mode: {{mMode}}</h2>
                 <button ng-click="toggleBuildMode()">Done</button>
                 <button ng-click="activateDeleteMode()">Delete</button>
-                <h2>Add item to your snowman: </h2>
-                <table>
+                <h2 ng-hide = "hideButtons">Add item to your snowman: </h2>
+                <table ng-hide="hideButtons">
                     <tr>
                         <td>
                             <input class="button" type="image" src="./assets/buttons/hat.png" ng-click="addItem('hat')"/>
@@ -119,8 +127,8 @@
                         </td>
                     </tr>
                 </table>
-                <h2> Free Shapes </h2>
-                <table>
+                <h2 ng-hide = "hideButtons"> Free Shapes </h2>
+                <table ng-hide = "hideButtons">
                     <tr>
                         <td>
                             <input class="button" type="image" src="./assets/buttons/circle2.png" ng-click="addItem('circle')"/>
@@ -137,7 +145,7 @@
                         
                     </tr>
                 </table>
-                <table>
+                <table ng-hide = "hideButtons">
                     <tr>
                         <td>
                             <p>Change the color:</p>

@@ -22,11 +22,21 @@ gEngine.VertexBuffer = (function () {
     var mCircleVertexBuffer = null;
     var mTriangleVertexBuffer = null;
     var mHexagonVertexBuffer = null;
+    var mIcicleVertexBuffer = null;
     
     var verticecOfTriangle = [
         0.5, 0.5, 0.0,
         -1, 0, 0.0,
         0.5, -0.5, 0.0
+    ];
+    
+    var verticesOfIcicle = [
+        -0.2, 1, 0.0,
+        -0.5, -1.5, 0.0,
+        -0.9, 1, 0.0,
+        0.7,1,0,
+        0.4,-0.7,0,
+        0,1,0
     ];
 
     // First: define the vertices for a square
@@ -102,6 +112,11 @@ gEngine.VertexBuffer = (function () {
         mHexagonVertexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, mHexagonVertexBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vHex), gl.STATIC_DRAW);
+        
+        //Icicle
+        mIcicleVertexBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, mIcicleVertexBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verticesOfIcicle), gl.STATIC_DRAW);
     };
 
     var getGLVertexRef = function () { return mSquareVertexBuffer; };
@@ -117,6 +132,9 @@ gEngine.VertexBuffer = (function () {
     var getHexagonVertexRef = function() {return mHexagonVertexBuffer; };
     var getHexagonVertexSize = function() {return kHexagonVertices + 2; };
     
+    var getIcicleVertexRef = function(){return mIcicleVertexBuffer; };
+    var getIcicleVertexSize = function() {return 6;};
+    
     var mPublic = {
         initialize: initialize,
         getSquareVertexRef: getSquareVertexRef,
@@ -126,7 +144,9 @@ gEngine.VertexBuffer = (function () {
         getTriangleVertexRef: getTriangleVertexRef,
         getTriangleVertexSize: getTriangleVertexSize,
         getHexagonVertexRef: getHexagonVertexRef,
-        getHexagonVertexSize: getHexagonVertexSize
+        getHexagonVertexSize: getHexagonVertexSize,
+        getIcicleVertexRef: getIcicleVertexRef,
+        getIcicleVertexSize: getIcicleVertexSize
     };
 
     return mPublic;

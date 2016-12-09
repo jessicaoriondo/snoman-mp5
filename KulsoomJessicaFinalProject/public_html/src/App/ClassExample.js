@@ -9,6 +9,8 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function ClassExample() {
+    
+    this.mIcicles = [];
     this.armDistX = 0;
     this.armDistY = 1.2;
     
@@ -30,6 +32,11 @@ function ClassExample() {
     this.mXfSq.getXform().setSize(0.2, 0.2);
 
     this.mParent = new SnowmanBody(this.mConstColorShader);
+    //this.ice = new IcicleRenderable(this.mConstColorShader);
+    //this.ice.setColor([0, 0, 0, 1]);
+    //this.ice.getXform().setSize(0.4, 0.8);
+    //this.ice.setColor([0 ,0, 0,1]);
+    //this.ice.getXform().setPosition([0,0]);
     
     this.mDirectManipulator = new DirectManipulation(this.mConstColorShader, true);
     var xfDM = this.mDirectManipulator.getXform();
@@ -44,6 +51,8 @@ function ClassExample() {
     this.mIsDeleteMode = false;
     
     this.mColorChange = null;
+    
+    
 }
 
 ClassExample.prototype.changeColor = function()
@@ -114,7 +123,6 @@ ClassExample.prototype.addButtons = function()
 
 ClassExample.prototype.addArms = function()
 {
-    console.log("adding arms called");
      //var arms = new ArmSegment(this.mConstColorShader);
      this.createArmSegment(this.childWCPos[0], this.childWCPos[1]);
      //this.mParent.addAsChild(arms);
@@ -335,8 +343,9 @@ ClassExample.prototype.draw = function (camera) {
     // Step F: Starts the drawing by activating the camera
     camera.setupViewProjection();
     
-
+    
     this.mParent.draw(camera);
+    //this.ice.draw(camera);
     //this.mParent.drawPivot(camera);
     var m = this.mParent.getXform().getXform();
     if(this.vmShouldDrawControl){
@@ -397,3 +406,43 @@ ClassExample.prototype.parentXform = function () {
 ClassExample.prototype.directManipulatorXform = function () {
     return this.mDirectManipulator.getXform();
 };
+
+ClassExample.prototype.drawIcicles = function(camera)
+{
+    for(var i=0; i < this.mIcicles.length; i++)
+    {
+        //alert("drawing");
+        this.mIcicles[i].draw(camera);
+    }
+};
+
+//create function called dropIcicles, deleteIcicles
+
+ClassExample.prototype.addIcicle = function(xPos)
+{
+    var icicleToAdd = new IcicleRenderable(this.mConstColorShader);
+    //icicleToAdd.getXform().setPosition([0,0]);
+    icicleToAdd.setColor([117/255 , 214/255, 241/255,1]);
+    icicleToAdd.getXform().setSize(1.0, 2.0);
+    icicleToAdd.getXform().setPosition(xPos,20);
+    this.mIcicles.push(icicleToAdd);
+};
+
+ClassExample.prototype.destroyIcicles = function()
+{
+    while(this.mIcicles.length > 0 )
+    {
+        this.mIcicles.pop();
+    }
+};
+
+ClassExample.prototype.dropIcicle = function()
+{
+    for(var i=0; i < this.mIcicles.length; i++)
+    {
+        var vel = this.mIcicles[i].getVelocity();
+        this.mIcicles[i].getXform().incYPosBy(-vel);
+        this.mIcicles[i].incVelocity(0.025);
+    }
+};
+
