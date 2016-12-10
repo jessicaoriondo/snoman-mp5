@@ -166,7 +166,7 @@ myModule.controller("MainCtrl", function ($scope) {
             if(collided)
             {
                 alert("you just lost :P");
-                $scope.toggleBuildMode();
+                $scope.mMyWorld.destroyIcicles();
             }
             else{
             
@@ -180,8 +180,15 @@ myModule.controller("MainCtrl", function ($scope) {
     //ADDING ICICLE TIME HANDLER
     $scope.icicleTimerHandler = function()
     {
-                   
+            $scope.addIcicle();       
             $scope.addIcicle();
+            $scope.addIcicle();
+    };
+    
+    $scope.icicleTimerHandler2 = function()
+    {
+            $scope.addIcicle();       
+
     };
 
     $scope.serviceSelection = function () {
