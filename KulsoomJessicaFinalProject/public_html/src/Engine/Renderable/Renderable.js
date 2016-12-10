@@ -48,6 +48,24 @@ Renderable.prototype.getXform = function () { return this.mXform; };
 Renderable.prototype.setColor = function (color) { this.mColor = color; };
 Renderable.prototype.getColor = function () { return this.mColor; };
 Renderable.prototype.getVelocity = function () { return this.mVelocity; };
-Renderable.prototype.incVelocity = function(x) { this.mVelocity = this.mVelocity + x}
+Renderable.prototype.incVelocity = function(x) { this.mVelocity = this.mVelocity + x;};
+
+Renderable.prototype.mayHaveCollided = function(width, height, wcPos) { // other is anotehr Renderable wcPos is position of parent
+   
+    var myXf = this.getXform();
+    //var urXf = other.getXform();
+    
+    // pretend xf.mScale contains the radius;
+    var myR = Math.min(myXf.getWidth(), myXf.getHeight());
+    var urR = Math.min(width, height);
+    
+    var rDist = myR*myR + urR*urR;
+
+    var dx = myXf.getXPos() - wcPos[0];
+    var dy = myXf.getYPos() - wcPos[1];
+    var distBetweenCenter = dx*dx + dy*dy;
+
+    return distBetweenCenter - rDist <= 1;
+};
 //--- end of Public Methods
 //</editor-fold>

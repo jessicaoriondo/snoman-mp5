@@ -446,3 +446,51 @@ ClassExample.prototype.dropIcicle = function()
     }
 };
 
+ClassExample.prototype.checkCollision = function(floor)
+{
+    for(var i=0; i < this.mIcicles.length; i++)
+    {
+        var icePos = this.mIcicles[i].getXform().getPosition();
+        if(icePos[1] <= floor)
+        {
+            this.mIcicles.splice(i,1);
+        }
+    }
+    
+    var parentRenderables = this.mParent.getRenderables();
+    var parentXform = this.parentXform();
+    for(var i=0; i < this.mIcicles.length; i++)
+    {
+//        for(var pIndex = 0; pIndex < parentRenderables.length; pIndex++)
+//        {
+//            var wcPos = this.objToWC(parentRenderables[pIndex].getXform().getPosition());
+//            //alert(wcPos[0]);
+//            if(parentRenderables[pIndex].mayHaveCollided(this.mIcicles[i]), wcPos)
+//            {
+//                return true;
+//            }
+//        }
+            
+           if(this.mIcicles[i].mayHaveCollided(parentXform.getWidth(), parentXform.getHeight(), parentXform.getPosition()))
+            {
+                return true;
+            }
+        
+    }
+    //alert("poop");
+    return false;
+    
+};
+
+ClassExample.prototype.objToWC = function (objP) {
+    var m = this.objToWCMatrix();
+    var wcPos = [0, 0];
+    vec2.transformMat4(wcPos, objP, m);
+    return wcPos;
+};
+
+ClassExample.prototype.objToWCMatrix = function () {
+    var m = this.mSceneNode.getXform().getXform();
+    mat4.multiply(m, this.mObjToWCMatrix, m);
+    return m;
+};

@@ -160,9 +160,19 @@ myModule.controller("MainCtrl", function ($scope) {
         
         if($scope.mMode === "Game Mode")
         {
-            
             $scope.mMyWorld.drawIcicles($scope.mView);
-            $scope.mMyWorld.dropIcicle();
+            var collided = $scope.mMyWorld.checkCollision(-2.5);
+            
+            if(collided)
+            {
+                alert("you just lost :P");
+                $scope.toggleBuildMode();
+            }
+            else{
+            
+                $scope.mMyWorld.dropIcicle();
+            }
+            
             
         }
     };
@@ -212,17 +222,25 @@ myModule.controller("MainCtrl", function ($scope) {
                 switch(event.keyCode){
                 case 39: //right arrow key
                     if(parentPos[0]+2 < rightBound){
-                        $scope.mMyWorld.parentXform().incXPosBy(1);
+                        $scope.mMyWorld.parentXform().incXPosBy(0.5);
                     }
                     break;
                 case 37: //left arrow key
                     if(parentPos[0]-2 > leftBound)
                     {
-                        $scope.mMyWorld.parentXform().incXPosBy(-1);
+                        $scope.mMyWorld.parentXform().incXPosBy(-0.5);
                     }
                     break;
 
                 }
+                
+                var collided = $scope.mMyWorld.checkCollision(-2.5);
+            
+                if(collided)
+                {
+                    alert("collided");
+                }
+                
             }
         }
     };

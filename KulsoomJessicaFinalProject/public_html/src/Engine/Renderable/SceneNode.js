@@ -50,6 +50,11 @@ SceneNode.prototype.getRenderableAt = function (index) {
     return this.mSet[index];
 };
 
+SceneNode.prototype.getRenderables = function()
+{
+    return this.mSet;
+};
+
 SceneNode.prototype.addToSet = function (obj) {
     this.mSet.push(obj);
 };
