@@ -103,6 +103,22 @@
                 <h2> Mode: {{mMode}}</h2>
                 <button ng-click="toggleBuildMode()">Done</button>
                 <button ng-hide = "hideButtons" ng-click="activateDeleteMode()">Delete</button>
+                
+                
+                <h2 ng-hide="!hideButtons">Instructions</h2>
+                <p ng-hide="!hideButtons">
+                    Press space to start game.<br>
+                    Dodge the icicle using left and right key.<br>
+                    Let's see how long are you going survive >:D<br>
+                </p>
+                <br>
+                <br>
+                
+                <div id = "timerSpace" ng-hide="!hideButtons">
+                     <h2>Survival time:</h2>
+                    <span id="timer"></span> s
+                </div>
+                
                 <h2 ng-hide = "hideButtons">Add item to your snowman: </h2>
                 <table ng-hide="hideButtons">
                     <tr>

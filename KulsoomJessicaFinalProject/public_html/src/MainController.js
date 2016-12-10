@@ -24,6 +24,7 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.isDeleteModeActivated = false;
     $scope.colorHex = "no color chosen";
     $scope.hideButtons = false;
+    $scope.gameStarted = false;
     // Radio button selection support
     $scope.eSelection = [
         {label: "Parent"},
@@ -113,6 +114,8 @@ myModule.controller("MainCtrl", function ($scope) {
             $scope.mMode = "Game Mode";
             $scope.mMyWorld.destroyIcicles();
             $scope.hideButtons = true;
+            $scope.startTime = Date.now();
+            
         }
         else{
             $scope.mMyWorld.mIsDeleteMode = false;
@@ -120,6 +123,7 @@ myModule.controller("MainCtrl", function ($scope) {
             $scope.mMode = "Build Mode";
             $scope.mMyWorld.mParent.getXform().setPosition(0,0);
             $scope.hideButtons = false;
+            $scope.gameStarted = false;
         }
     };
     
@@ -158,15 +162,18 @@ myModule.controller("MainCtrl", function ($scope) {
         
         $scope.mMyWorld.changeColor();
         
-        if($scope.mMode === "Game Mode")
+        if($scope.mMode === "Game Mode" && $scope.gameStarted)
         {
             $scope.mMyWorld.drawIcicles($scope.mView);
             var collided = $scope.mMyWorld.checkCollision(-2.5);
             
             if(collided)
             {
-                alert("you just lost :P");
+                alert("you got hit by an icicle :P\n\you survived for:\n\n" + 
+                        ($scope.elapsedTime / 1000).toFixed(3) + "s");
                 $scope.mMyWorld.destroyIcicles();
+                $scope.gameStarted = false;
+                $scope.startTime = Date.now();
             }
             else{
             
@@ -177,20 +184,41 @@ myModule.controller("MainCtrl", function ($scope) {
         }
     };
     
-    //ADDING ICICLE TIME HANDLER
+    //*******************ADDING ICICLE TIME HANDLER********************
     $scope.icicleTimerHandler = function()
     {
-            $scope.addIcicle();       
+        if($scope.gameStarted)
+        {
+            $scope.addIcicle();  
             $scope.addIcicle();
             $scope.addIcicle();
+            
+        }
     };
     
     $scope.icicleTimerHandler2 = function()
     {
+        if($scope.gameStarted)
+        {
             $scope.addIcicle();       
-
+        }
     };
+    
+    $scope.startTime = Date.now();
 
+    $scope.interval = setInterval(function() {
+        $scope.elapsedTime = Date.now() - $scope.startTime;
+        if($scope.gameStarted){
+            document.getElementById("timer").innerHTML = ($scope.elapsedTime / 1000).toFixed(3);
+        }
+        else
+        {
+            document.getElementById("timer").innerHTML = 0.0;
+        }
+    }, 100);
+    //**************************************************************************
+    
+    
     $scope.serviceSelection = function () {
         switch ($scope.mSelectedEcho) {
         case $scope.eSelection[0].label:
@@ -215,7 +243,16 @@ myModule.controller("MainCtrl", function ($scope) {
     };
     
     $scope.serviceKeyPress = function(event) {
-        if($scope.mMode === "Game Mode")
+        if($scope.mMode ==="Game Mode" && !$scope.gameStarted)
+        {
+            if(event.keyCode === 32)
+            {
+                $scope.gameStarted = true;
+                $scope.startTime = Date.now();
+            }
+        }
+        
+        if($scope.mMode === "Game Mode" && $scope.gameStarted)
         {
             var parentPos = $scope.mMyWorld.parentXform().getPosition();
             //var parentXpos = $scope.mView.mouseWCX(parentPos[0]);
@@ -245,7 +282,10 @@ myModule.controller("MainCtrl", function ($scope) {
             
                 if(collided)
                 {
-                    alert("collided");
+                    $scope.gameStarted = false;
+                    alert("you got hit by an icicle :P\n\n\
+                               you survived for:\n" + ($scope.elapsedTime / 1000).toFixed(3) + "s");
+                    $scope.mMyWorld.destroyIcicles();
                 }
                 
             }
