@@ -115,6 +115,7 @@ myModule.controller("MainCtrl", function ($scope) {
             $scope.mMyWorld.destroyIcicles();
             $scope.hideButtons = true;
             $scope.startTime = Date.now();
+            $scope.mMyWorld.vmShouldDrawControl = false;
             
         }
         else{
@@ -332,17 +333,18 @@ myModule.controller("MainCtrl", function ($scope) {
     };
     
     $scope.dragKnobPos = function(event){
+        if($scope.mMode === "Build Mode"){
+            var wcPos = $scope.computeWCPos(event);
 
-        var wcPos = $scope.computeWCPos(event);
-            
-        if($scope.isMouseOnScaleKnob && event.which === 1){
-            $scope.mMyWorld.scaleSceneNode(wcPos[0], wcPos[1]);
-        }
-        else if($scope.isMouseOnRotationKnob && event.which === 1){
-            $scope.mMyWorld.rotateSceneNode(wcPos[0], wcPos[1]);
-        }
-        else if($scope.isMouseOnTranslationKnob && event.which === 1){
-            $scope.mMyWorld.translateSceneNode3(wcPos[0], wcPos[1]);
+            if($scope.isMouseOnScaleKnob && event.which === 1){
+                $scope.mMyWorld.scaleSceneNode(wcPos[0], wcPos[1]);
+            }
+            else if($scope.isMouseOnRotationKnob && event.which === 1){
+                $scope.mMyWorld.rotateSceneNode(wcPos[0], wcPos[1]);
+            }
+            else if($scope.isMouseOnTranslationKnob && event.which === 1){
+                $scope.mMyWorld.translateSceneNode3(wcPos[0], wcPos[1]);
+            }
         }
     };
     
