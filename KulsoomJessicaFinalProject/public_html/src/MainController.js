@@ -180,6 +180,7 @@ myModule.controller("MainCtrl", function ($scope) {
             
             if(collided)
             {
+                //http://www.w3schools.com/howto/howto_css_modals.asp
                 modal.style.display = "block";
                 $scope.gameResult = "You got hit by an icicle!";
                 $scope.gameTime = ":P\n\You survived for:\n\n" + 
@@ -285,6 +286,7 @@ myModule.controller("MainCtrl", function ($scope) {
                     
                     $scope.gameStarted = false;
 
+                    //http://www.w3schools.com/howto/howto_css_modals.asp
                     modal.style.display = "block";
                     $scope.gameResult = "You got hit by an icicle!";
                     $scope.gameTime = ":P\n\You survived for:\n\n" + 
@@ -297,6 +299,7 @@ myModule.controller("MainCtrl", function ($scope) {
         }
     };
     
+    //http://www.w3schools.com/howto/howto_css_modals.asp
     // Get the modal
     var modal = document.getElementById('myModal');
 
