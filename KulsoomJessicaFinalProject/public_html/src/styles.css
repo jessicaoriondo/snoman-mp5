@@ -103,3 +103,38 @@ h1{
     outline: 1px solid; 
     background-color: highlighttext ;
 }
+
+/*http://www.w3schools.com/css/css3_buttons.asp*/
+button {
+    background-color: #76C4F8; 
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover{
+    background-color: white;
+    color: #76C4F8;
+    border-radius: 4px;
+    
+}
+
+/*http://www.w3schools.com/css/css_form.asp*/
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

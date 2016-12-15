@@ -101,8 +101,8 @@
                 </div>
                 <!--table within a table [for buttons]-->
                 <h2> Mode: {{mMode}}</h2>
-                <button ng-click="toggleBuildMode()">Done</button>
-                <button ng-hide = "hideButtons" ng-click="activateDeleteMode()">Delete</button>
+                <button ng-click="toggleBuildMode()">{{builderGameButton}}</button>
+                <button ng-hide = "hideButtons" ng-click="activateDeleteMode()">{{deleteButtonLabel}}</button>
                 
                 
                 <h2 ng-hide="!hideButtons">Instructions</h2>
@@ -119,7 +119,7 @@
                     <span id="timer"></span> s
                 </div>
                 
-                <h2 ng-hide = "hideButtons">Add item to your snowman: </h2>
+                <h2 ng-hide = "hideButtons">Add items to your snowman: </h2>
                 <table ng-hide="hideButtons">
                     <tr>
                         <td>
@@ -169,7 +169,7 @@
                     <tr>
                         <td>
                             <p>Change the color:</p>
-                            <input id="color" class="jscolor" ng-value="colorHex" ng-model="colorHex" ng-change="changeColor()">
+                            <input type="text" id="color" class="jscolor" ng-value="colorHex" ng-model="colorHex" ng-change="changeColor()">
                         </td>
                     </tr>
                 </table>

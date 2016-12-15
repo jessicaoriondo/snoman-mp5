@@ -33,6 +33,9 @@ myModule.controller("MainCtrl", function ($scope) {
         {label: "RightChild"}
     ];
     
+    $scope.builderGameButton = "Play Game";
+    $scope.deleteButtonLabel = "Delete";
+    
     $scope.mWhichCamera = "Large";
 
        // this is the model
@@ -55,7 +58,8 @@ myModule.controller("MainCtrl", function ($scope) {
                 10, // wc width
                 [0, 0, 600, 600]);  // viewport: left, bottom, width, height
                 
-    $scope.mBuildView.setBackgroundColor([124/255, 170/255, 244/255, .5]);
+    $scope.mBuildView.setBackgroundColor([126.0/255, 194.0/255, 241.0/255, .5]);
+    
     $scope.mBuildView.setViewport([0, 0, 600, 600]);
      
     
@@ -117,6 +121,7 @@ myModule.controller("MainCtrl", function ($scope) {
             $scope.startTime = Date.now();
             $scope.mMyWorld.vmShouldDrawControl = false;
             $scope.mMyWorld.vmShouldDrawDirectManipulator = false;
+            $scope.builderGameButton = "Customize";
         }
         else{
             $scope.mMyWorld.mIsDeleteMode = false;
@@ -125,6 +130,7 @@ myModule.controller("MainCtrl", function ($scope) {
             $scope.mMyWorld.mParent.getXform().setPosition(0,0);
             $scope.hideButtons = false;
             $scope.gameStarted = false;
+            $scope.builderGameButton = "Play Game";
         }
     };
     
@@ -133,11 +139,13 @@ myModule.controller("MainCtrl", function ($scope) {
             $scope.isDeleteModeActivated = false;
             $scope.mMyWorld.mIsDeleteMode = false;
             $scope.mMode = "Build Mode";
+            $scope.deleteButtonLabel = "Delete";
         }
         else{
             $scope.isDeleteModeActivated = true;
             $scope.mMyWorld.mIsDeleteMode = true;
             $scope.mMode = "Delete Mode";
+            $scope.deleteButtonLabel = "Build";
         }
     };
     
