@@ -35,6 +35,8 @@ myModule.controller("MainCtrl", function ($scope) {
     
     $scope.builderGameButton = "Play Game";
     $scope.deleteButtonLabel = "Delete";
+    $scope.gameResult = "";
+    $scope.gameTime = "";
     
     $scope.mWhichCamera = "Large";
 
@@ -178,8 +180,10 @@ myModule.controller("MainCtrl", function ($scope) {
             
             if(collided)
             {
-                alert("you got hit by an icicle :P\n\you survived for:\n\n" + 
-                        ($scope.elapsedTime / 1000).toFixed(3) + "s");
+                modal.style.display = "block";
+                $scope.gameResult = "You got hit by an icicle!";
+                $scope.gameTime = ":P\n\You survived for:\n\n" + 
+                        ($scope.elapsedTime / 1000).toFixed(3) + "s";
                 $scope.mMyWorld.destroyIcicles();
                 $scope.gameStarted = false;
                 $scope.startTime = Date.now();
@@ -227,23 +231,6 @@ myModule.controller("MainCtrl", function ($scope) {
     }, 100);
     //**************************************************************************
     
-    
-    $scope.serviceSelection = function () {
-        switch ($scope.mSelectedEcho) {
-        case $scope.eSelection[0].label:
-            $scope.mSelectedXform = $scope.mMyWorld.parentXform();
-            break;
-        case $scope.eSelection[1].label:
-            $scope.mSelectedXform = $scope.mMyWorld.leftChildXform();
-            break;
-        case $scope.eSelection[2].label:
-            $scope.mSelectedXform = $scope.mMyWorld.topChildXform();
-            break;
-        case $scope.eSelection[3].label:
-            $scope.mSelectedXform = $scope.mMyWorld.rightChildXform();
-            break;
-        }
-    };
 
     $scope.serviceMove = function (event) {
 
@@ -289,15 +276,42 @@ myModule.controller("MainCtrl", function ($scope) {
                 
                 var collided = $scope.mMyWorld.checkCollision(-2.5);
             
+            
                 if(collided)
                 {
+                    
+
+                    
+                    
                     $scope.gameStarted = false;
-                    alert("you got hit by an icicle :P\n\n\
-                               you survived for:\n" + ($scope.elapsedTime / 1000).toFixed(3) + "s");
+
+                    modal.style.display = "block";
+                    $scope.gameResult = "You got hit by an icicle!";
+                    $scope.gameTime = ":P\n\You survived for:\n\n" + 
+                            ($scope.elapsedTime / 1000).toFixed(3) + "s";
+
                     $scope.mMyWorld.destroyIcicles();
                 }
                 
             }
+        }
+    };
+    
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
         }
     };
 
