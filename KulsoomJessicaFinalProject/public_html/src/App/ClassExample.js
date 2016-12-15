@@ -55,6 +55,23 @@ function ClassExample() {
     
 }
 
+ClassExample.prototype.inBoundsDuringBuildMode = function(mouseX, mouseY, 
+leftBound, rightBound, topBound, bottomBound){
+
+      if(mouseX < leftBound ||
+              mouseX > rightBound){
+          return false;
+      }
+    
+      if(mouseY < bottomBound || mouseY > topBound){
+          return false;
+      }
+
+    
+    return true;
+    
+};
+
 ClassExample.prototype.changeColor = function()
 {
     if(this.vmShouldDrawDirectManipulator &&

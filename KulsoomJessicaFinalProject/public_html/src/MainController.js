@@ -116,7 +116,7 @@ myModule.controller("MainCtrl", function ($scope) {
             $scope.hideButtons = true;
             $scope.startTime = Date.now();
             $scope.mMyWorld.vmShouldDrawControl = false;
-            
+            $scope.mMyWorld.vmShouldDrawDirectManipulator = false;
         }
         else{
             $scope.mMyWorld.mIsDeleteMode = false;
@@ -343,7 +343,18 @@ myModule.controller("MainCtrl", function ($scope) {
                 $scope.mMyWorld.rotateSceneNode(wcPos[0], wcPos[1]);
             }
             else if($scope.isMouseOnTranslationKnob && event.which === 1){
-                $scope.mMyWorld.translateSceneNode3(wcPos[0], wcPos[1]);
+                
+                var center = $scope.mBuildView.getWCCenter();
+                var width = $scope.mBuildView.getWCWidth();
+                width = width / 2;
+                
+                var height = $scope.mBuildView.getWCHeight();
+                height = height / 2;
+                
+                if($scope.mMyWorld.inBoundsDuringBuildMode(wcPos[0], wcPos[1], 
+                center[0] - width, center[0] + width, center[1] + height, center[1] - height)){
+                    $scope.mMyWorld.translateSceneNode3(wcPos[0], wcPos[1]);
+                }
             }
         }
     };

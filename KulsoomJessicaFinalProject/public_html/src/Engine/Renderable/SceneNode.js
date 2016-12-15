@@ -121,7 +121,7 @@ SceneNode.prototype.draw = function (aCamera, parentMat) {
 //};
 
 SceneNode.prototype.setColor = function (color) {
-    for(var i = 0; i < this.mSet.length; i++){
+    for(var i = 1; i < this.mSet.length; i++){
         this.mSet[i].setColor(color);
     }
 };
